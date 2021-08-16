@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.getmyparking.ui.fragments.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_mapFragment"
+            app:destination="@id/mapFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.getmyparking.ui.fragments.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_bottomParkingDetailDialogFragment"
+            app:destination="@id/bottomParkingDetailDialogFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.getmyparking.ui.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_addVehicleFragment"
+            app:destination="@id/addVehicleFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomParkingDetailDialogFragment"
+        android:name="com.example.getmyparking.ui.fragments.BottomParkingDetailDialogFragment"
+        android:label="fragment_bottom_parking_detail_dialog"
+        tools:layout="@layout/fragment_bottom_parking_detail_dialog" >
+        <action
+            android:id="@+id/action_bottomParkingDetailDialogFragment_to_parkingDetailFragment"
+            app:destination="@id/parkingDetailFragment" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/parkingDetailFragment"
+        android:name="com.example.getmyparking.ui.fragments.ParkingDetailFragment"
+        android:label="fragment_parking_detail"
+        tools:layout="@layout/fragment_parking_detail" >
+        <action
+            android:id="@+id/action_parkingDetailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addVehicleFragment"
+        android:name="com.example.getmyparking.ui.fragments.AddVehicleFragment"
+        android:label="fragment_add_vehicle"
+        tools:layout="@layout/fragment_add_vehicle" />
+
+</navigation>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.ParkingDetailFragment">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/image_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                tools:context=".ui.fragments.BottomParkingDetailDialogFragment">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/ic_parking_marker"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Parking Area Name"
+                        android:textSize="18sp"
+                        android:textAppearance="@style/text_header"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="City Name"
+                        android:textAppearance="@style/text_regular"
+                        android:layout_marginTop="10dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/black"/>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_directions_arrow"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/txt_km_away"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14km Away"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                            app:layout_constraintStart_toEndOf="@+id/imageView"
+                            app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+                        <LinearLayout
+                            android:id="@+id/linear_get_direction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txt_get_direction"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/get_directions"
+                                android:layout_gravity="center_vertical"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                                app:layout_constraintStart_toEndOf="@+id/imageView"
+                                app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_arrow_forward"
+                                android:layout_gravity="center_vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_grey"
+                android:layout_marginTop="2dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/opening_hours"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/txt_opening_hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/opening_hours"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_grey"
+                android:layout_marginTop="2dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pricing"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bike"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/text_regular"/>
+
+                <TextView
+                    android:id="@+id/txt_pricing_bike"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rs 50"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/car"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textAppearance="@style/text_regular"/>
+
+                <TextView
+                    android:id="@+id/txt_pricing_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rs 500"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_grey"
+                android:layout_marginTop="5dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/capacity"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/txt_capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="300"
+                    android:textColor="@color/text_grey"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
