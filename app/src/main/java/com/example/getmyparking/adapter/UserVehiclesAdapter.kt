@@ -3,6 +3,7 @@ package com.example.getmyparking.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,8 @@ import com.example.getmyparking.interfaces.UserVehicleAdapterListener
 import com.example.getmyparking.models.Vehicle
 
 class UserVehiclesAdapter(
-    val listener: UserVehicleAdapterListener
+    private val vehicleList:ArrayList<Vehicle>,
+    private val listener: UserVehicleAdapterListener
 ): RecyclerView.Adapter<UserVehiclesAdapter.ViewHolder>() {
 
     private val differCallback = object: DiffUtil.ItemCallback<Vehicle>(){
@@ -31,6 +33,9 @@ class UserVehiclesAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+        private val txtVehicleModel: TextView = itemView.findViewById(R.id.txt_vehical_model)
+        private val txtVehicleNumber: TextView = itemView.findViewById(R.id.txt_vehicle_number)
+        private val txtVehicleType: TextView = itemView.findViewById(R.id.txt_vehicle_type)
 
         init {
             itemView.setOnClickListener(this)
@@ -38,10 +43,14 @@ class UserVehiclesAdapter(
 
         fun bind(){
 
+            txtVehicleNumber.text = differ.currentList[adapterPosition].vehicleNumber
+            txtVehicleModel.text = differ.currentList[adapterPosition].vehicleModel
+            txtVehicleType.text = differ.currentList[adapterPosition].vehicleType.name
+
         }
         override fun onClick(v: View?) {
             if (adapterPosition != RecyclerView.NO_POSITION)
-                listener.onVehicleClick(adapterPosition)
+                listener.onVehicleClick(differ.currentList[adapterPosition])
         }
 
     }
@@ -61,6 +70,4 @@ class UserVehiclesAdapter(
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
-
-
 }

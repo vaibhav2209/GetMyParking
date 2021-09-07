@@ -1,29 +1,25 @@
 package com.example.getmyparking.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.example.getmyparking.R
 import com.example.getmyparking.adapter.ParkingImageAdapter
 import com.example.getmyparking.animations.ImageSlideAnimation
 import com.example.getmyparking.databinding.FragmentParkingDetailBinding
 import com.example.getmyparking.interfaces.ParkingImagesListener
-import com.example.getmyparking.viewModel.MainViewModel
+import com.example.getmyparking.viewModel.ParkingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class ParkingDetailFragment : BaseFragment<MainViewModel, FragmentParkingDetailBinding>(), ParkingImagesListener{
+@AndroidEntryPoint
+class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), ParkingImagesListener{
 
 
     private lateinit var imageAdapter: ParkingImageAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-    }
+    private val parkingViewModel:ParkingViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,8 +41,12 @@ class ParkingDetailFragment : BaseFragment<MainViewModel, FragmentParkingDetailB
             setPageTransformer(ImageSlideAnimation(3))
         }
 
-        binding.linearGetDirection.setOnClickListener {
-            navigateToNextScreen(R.id.action_parkingDetailFragment_to_profileFragment)
+        binding.btnNavigate.setOnClickListener {
+
+        }
+
+        binding.btnBookNow.setOnClickListener {
+
         }
     }
 

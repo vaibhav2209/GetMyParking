@@ -1,26 +1,25 @@
 package com.example.getmyparking.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.getmyparking.R
 import com.example.getmyparking.databinding.FragmentAddVehicleBinding
-import com.example.getmyparking.viewModel.MainViewModel
+import com.example.getmyparking.models.Vehicle
+import com.example.getmyparking.others.enums.VehicleType
 import com.example.getmyparking.viewModel.ProfileViewModel
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
+class AddVehicleFragment : BaseFragment<FragmentAddVehicleBinding>() {
 
-class AddVehicleFragment : BaseFragment<ProfileViewModel, FragmentAddVehicleBinding>() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mViewModel = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
-    }
+    private var selectedVehicleType:VehicleType = VehicleType.CAR
+    private val profileViewModel:ProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +31,46 @@ class AddVehicleFragment : BaseFragment<ProfileViewModel, FragmentAddVehicleBind
     }
 
     private fun setupUI(){
-        mViewModel.parkingData.observe(viewLifecycleOwner, Observer{
-            Timber.d("parking Data: ${it.data}")
-        })
+        binding.btnAddVehicleDone.setOnClickListener {
+            retrieveVehicleData()
+            findNavController().popBackStack()
+        }
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, VehicleType.values())
+        binding.autoCompleteVehicleType.setAdapter(adapter)
+        binding.autoCompleteVehicleType.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedVehicleType = VehicleType.values()[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+    }
+
+
+    private fun retrieveVehicleData() {
+        if (binding.editTxtVehicleModel.text?.isEmpty() == true) {
+            binding.textInputVehicleModel.error = "Enter vehicle model"
+            return
+        }
+        if (binding.textInputVehicleNumber.editText?.text?.isEmpty() == true) {
+            binding.textInputVehicleNumber.error = "Enter vehicle number"
+            return
+        }
+
+        val vehicleModel = binding.textInputVehicleModel.editText?.text.toString()
+        val vehicleNumber = binding.textInputVehicleNumber.editText?.text.toString()
+        profileViewModel.addVehicle(
+            Vehicle(
+                vehicleModel, vehicleNumber, selectedVehicleType
+            )
+        )
     }
 
 

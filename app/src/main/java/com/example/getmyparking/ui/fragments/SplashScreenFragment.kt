@@ -8,24 +8,24 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.example.getmyparking.R
 import com.example.getmyparking.databinding.FragmentSplashScreenBinding
 import com.example.getmyparking.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.example.getmyparking.utils.Utilities
-import com.example.getmyparking.viewModel.MainViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.annotations.AfterPermissionGranted
 
-class SplashScreenFragment : BaseFragment<MainViewModel, FragmentSplashScreenBinding>(), EasyPermissions.PermissionCallbacks {
+class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding>(), EasyPermissions.PermissionCallbacks {
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
-
         Handler(Looper.getMainLooper()).postDelayed({
             requestPermissions()
         }, 1500)

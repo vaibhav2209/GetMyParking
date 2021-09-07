@@ -108,10 +108,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_vehicals"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_vehicles"
-        tools:layout_editor_absoluteX="20dp"
-        android:layout_marginTop="10dp"/>
+        tools:layout_editor_absoluteX="20dp" />
 
     <ImageButton
         android:id="@+id/imgBtn_add"

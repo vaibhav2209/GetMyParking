@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Get My Parking</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_hint">Where do you want to park?</string>
-    <string name="get_directions">Get Directions</string>
+    <string name="navigate">Navigate</string>
     <string name="opening_hours">Opening Hours</string>
     <string name="pricing">Pricing</string>
     <string name="bike">Bike</string>
@@ -15,4 +15,11 @@
     <string name="vehicle_number">Vehicle Number</string>
     <string name="vehicle_type">Vehicle Type</string>
     <string name="done">Done</string>
+    <string name="book_now">Book Now</string>
+    <string name="value_added_services">Value Added Services</string>
+    <string name="location">Location</string>
+    <string name="hours">Hours</string>
+    <string name="total_price">Total Price</string>
+    <string name="proceed">Proceed</string>
+
 </resources>

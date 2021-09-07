@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/theme_white"
     android:padding="@dimen/page_margin"
     tools:context=".ui.fragments.AddVehicleFragment">
 
@@ -12,9 +13,11 @@
         android:id="@+id/textInput_vehicleModel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:errorEnabled="true"
         android:hint="@string/vehicle_model">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTxt_vehicleModel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -24,10 +27,12 @@
         android:id="@+id/textInput_vehicleNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:errorEnabled="true"
         android:hint="@string/vehicle_number"
         android:layout_marginTop="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTxt_vehicleNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -37,11 +42,13 @@
         android:id="@+id/textInput_vehicleType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:errorEnabled="true"
         android:layout_marginTop="10dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:hint="@string/vehicle_type">
 
         <AutoCompleteTextView
+            android:id="@+id/autoComplete_vehicleType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"/>

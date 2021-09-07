@@ -72,62 +72,35 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/black"/>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_bookNow"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_directions_arrow"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:visibility="visible"
+                            android:backgroundTint="@color/primary_theme"
+                            android:text="@string/book_now"
+                            />
 
-                        <TextView
-                            android:id="@+id/txt_km_away"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_navigate"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="14km Away"
-                            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                            app:layout_constraintStart_toEndOf="@+id/imageView"
-                            app:layout_constraintTop_toTopOf="@+id/imageView" />
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/primary_theme"
+                            android:textAllCaps="false"
+                            android:text="@string/navigate"
+                            />
 
-                        <LinearLayout
-                            android:id="@+id/linear_get_direction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/txt_get_direction"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/get_directions"
-                                android:layout_gravity="center_vertical"
-                                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                                app:layout_constraintStart_toEndOf="@+id/imageView"
-                                app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_arrow_forward"
-                                android:layout_gravity="center_vertical"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -164,6 +137,114 @@
                     android:layout_gravity="center_vertical"
                     android:textSize="14sp"
                     android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/background_grey"
+                    android:layout_marginTop="2dp"
+                    android:layout_height="40dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/value_added_services"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textAppearance="@style/text_regular"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Car wash"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/text_regular"/>
+
+                    <TextView
+                        android:id="@+id/txt_pricing_car_wash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rs 250"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textAppearance="@style/text_regular"/>
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="car maintenance"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/text_regular"/>
+
+                    <TextView
+                        android:id="@+id/txt_pricing_maintenance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rs 50"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textAppearance="@style/text_regular"/>
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Electric car charging"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/text_regular"/>
+
+                    <TextView
+                        android:id="@+id/txt_pricing_charging"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rs 500"
+                        android:textColor="@color/text_grey"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="@dimen/page_margin"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textAppearance="@style/text_regular"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

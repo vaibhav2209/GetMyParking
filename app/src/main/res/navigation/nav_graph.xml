@@ -16,14 +16,16 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.getmyparking.ui.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" >
+        tools:layout="@layout/fragment_map">
         <action
             android:id="@+id/action_mapFragment_to_bottomParkingDetailDialogFragment"
             app:destination="@id/bottomParkingDetailDialogFragment" />
@@ -46,6 +48,9 @@
         <action
             android:id="@+id/action_bottomParkingDetailDialogFragment_to_parkingDetailFragment"
             app:destination="@id/parkingDetailFragment" />
+        <action
+            android:id="@+id/action_bottomParkingDetailDialogFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
     </dialog>
 
     <fragment
@@ -56,11 +61,21 @@
         <action
             android:id="@+id/action_parkingDetailFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_parkingDetailFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addVehicleFragment"
         android:name="com.example.getmyparking.ui.fragments.AddVehicleFragment"
         android:label="fragment_add_vehicle"
-        tools:layout="@layout/fragment_add_vehicle" />
+        tools:layout="@layout/fragment_add_vehicle" >
+
+    </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="com.example.getmyparking.ui.fragments.BookingFragment"
+        android:label="fragment_booking"
+        tools:layout="@layout/fragment_booking" />
 
 </navigation>

@@ -34,7 +34,7 @@
                 android:src="@drawable/ic_location"
                 android:layout_weight="1"
                 android:scaleType ="center"
-                android:background="@color/theme_green"
+                android:background="@color/primary_theme"
                 tools:ignore="ContentDescription" />
 
             <EditText
@@ -46,13 +46,14 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical|start"
                 android:hint="@string/search_hint"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:singleLine="true"
                 android:textAppearance="@style/text_regular"
                 android:textColorHint="@color/black"
                 tools:ignore="Autofill,RtlSymmetry" />
+
             <!--<fragment
                 android:id="@+id/autocomplete_fragment"
                 android:layout_weight="5"
@@ -78,5 +79,15 @@
         android:scaleType="centerInside"
         android:visibility="visible"
         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycler"
+        android:layout_marginHorizontal="@dimen/page_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_below="@id/frag_map_search_cardView"/>
 
 </RelativeLayout>

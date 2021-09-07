@@ -1,5 +1,7 @@
 package com.example.getmyparking.interfaces
 
+import com.example.getmyparking.models.Vehicle
+
 interface UserVehicleAdapterListener {
-    fun onVehicleClick(position:Int)
+    fun onVehicleClick(vehicle: Vehicle)
 }

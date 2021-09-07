@@ -8,4 +8,5 @@ object API {
         return "$baseUrl/parkingdata/v1/parking/$userName?pageSize=$pageSize&pageNo=$pageNo&cities=$city"
     }
 
+    const val BASE_URL = "https://gateway.api.getmyparking.com/"
 }

@@ -9,7 +9,12 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="theme_green">#64A442</color>
+    <color name="primary_theme">#171C8F</color>
+    <color name="primaryVariant_theme">#12177C</color>
+    <color name="theme_grey">#97999B</color>
+    <color name="bg_grey">#f8f8f8</color>
+
+    <color name="theme_white">#FEFEFE</color>
     <color name="toolbar_background">#FFFFFFFF</color>
     <color name="background_grey">#F5F5F5</color>
     <color name="text_grey">#717171</color>

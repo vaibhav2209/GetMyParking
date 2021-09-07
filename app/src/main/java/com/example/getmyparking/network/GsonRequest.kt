@@ -1,5 +1,6 @@
 package com.example.getmyparking.network
 
+import androidx.annotation.Nullable
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import com.android.volley.toolbox.JsonRequest
@@ -12,7 +13,7 @@ import java.nio.charset.Charset
 class GsonRequest<T> private constructor(
     private val httpRequestType: Int,
     private val urls: String,
-    private val requestBody: String?,
+    @Nullable private val requestBody: String?,
     private val clazz: Class<T>,
     private val header: Map<String?, String?>?,
     private val listener: Response.Listener<T>,
