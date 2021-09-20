@@ -21,5 +21,8 @@
     <string name="hours">Hours</string>
     <string name="total_price">Total Price</string>
     <string name="proceed">Proceed</string>
+    <string name="commercial">Commercial</string>
+    <string name="n_a">N/A</string>
+    <string name="total_price_value">₹ %1$s</string>
 
 </resources>

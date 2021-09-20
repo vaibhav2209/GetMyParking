@@ -1,4 +1,4 @@
-package com.example.getmyparking.network
+package com.example.getmyparking.data.remote
 
 import com.example.getmyparking.models.ParkingList
 import retrofit2.Response
@@ -12,7 +12,7 @@ interface ParkingApi {
         @Path("username") username:String,
         @Query("pageSize") pageSize: Int,
         @Query("pageNo") pageNo: Int,
-        @Query("city") city: String,
+        @Query("cities") city: String,
         @Header("x-date") date:String,
         @Header("Authorization") authorization: String
     ): Response<ParkingList>

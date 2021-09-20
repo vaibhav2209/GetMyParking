@@ -28,7 +28,15 @@
         tools:layout="@layout/fragment_map">
         <action
             android:id="@+id/action_mapFragment_to_bottomParkingDetailDialogFragment"
-            app:destination="@id/bottomParkingDetailDialogFragment" />
+            app:destination="@id/bottomParkingDetailDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            />
+        <action
+            android:id="@+id/action_mapFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
 
     <fragment
@@ -38,7 +46,9 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_addVehicleFragment"
-            app:destination="@id/addVehicleFragment" />
+            app:destination="@id/addVehicleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
     <dialog
         android:id="@+id/bottomParkingDetailDialogFragment"
@@ -47,10 +57,14 @@
         tools:layout="@layout/fragment_bottom_parking_detail_dialog" >
         <action
             android:id="@+id/action_bottomParkingDetailDialogFragment_to_parkingDetailFragment"
-            app:destination="@id/parkingDetailFragment" />
+            app:destination="@id/parkingDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
         <action
             android:id="@+id/action_bottomParkingDetailDialogFragment_to_bookingFragment"
-            app:destination="@id/bookingFragment" />
+            app:destination="@id/bookingFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
     </dialog>
 
     <fragment
@@ -59,11 +73,10 @@
         android:label="fragment_parking_detail"
         tools:layout="@layout/fragment_parking_detail" >
         <action
-            android:id="@+id/action_parkingDetailFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
             android:id="@+id/action_parkingDetailFragment_to_bookingFragment"
-            app:destination="@id/bookingFragment" />
+            app:destination="@id/bookingFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/addVehicleFragment"

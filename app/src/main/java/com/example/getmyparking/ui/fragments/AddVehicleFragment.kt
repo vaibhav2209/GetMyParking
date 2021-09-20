@@ -6,20 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.getmyparking.R
 import com.example.getmyparking.databinding.FragmentAddVehicleBinding
 import com.example.getmyparking.models.Vehicle
-import com.example.getmyparking.others.enums.VehicleType
+import com.example.getmyparking.utils.enums.VehicleType
 import com.example.getmyparking.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddVehicleFragment : BaseFragment<FragmentAddVehicleBinding>() {
 
-    private var selectedVehicleType:VehicleType = VehicleType.CAR
-    private val profileViewModel:ProfileViewModel by viewModels()
+    private var selectedVehicleType: VehicleType = VehicleType.CAR
+    private val profileViewModel:ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

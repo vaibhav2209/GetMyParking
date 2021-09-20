@@ -1,4 +1,4 @@
-package com.example.getmyparking.others.enums
+package com.example.getmyparking.utils.enums
 
 enum class Status {
     SUCCESS,

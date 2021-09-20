@@ -1,6 +1,7 @@
 package com.example.getmyparking.models
 
-import com.example.getmyparking.utils.enums.TicketingSystem
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.getmyparking.utils.enums.*
 
 data class Parking(
@@ -48,8 +49,7 @@ data class Parking(
     val operationalHours: List<OperationalHours>,
     val paymentMethods : List<PaymentMethodType>,
     val parkingTranslations : Any,
-    val discounts: List<Any>,
-    val services: List <Any>,
-    val publicTransportOptionTypes: List<Any>
-
+    val discounts: List<String>,
+    val services: List <String>,
+    val publicTransportOptionTypes: List<String>
 )

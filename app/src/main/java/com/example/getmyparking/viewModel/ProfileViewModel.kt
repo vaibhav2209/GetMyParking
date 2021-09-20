@@ -1,11 +1,8 @@
 package com.example.getmyparking.viewModel
 
 import androidx.lifecycle.MutableLiveData
-import com.example.getmyparking.models.Parking
 import com.example.getmyparking.models.Vehicle
-import com.example.getmyparking.network.WebServiceProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import javax.inject.Inject
 
 @HiltViewModel

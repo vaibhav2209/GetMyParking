@@ -1,36 +1,135 @@
 package com.example.getmyparking.repository
 
+
+import com.example.getmyparking.data.local.ParkingEntity
+import com.example.getmyparking.data.mapper.toParkingEntity
+
+import com.example.getmyparking.data.remote.ParkingRemoteDataSource
+import com.example.getmyparking.models.Parking
 import com.example.getmyparking.models.ParkingList
-import com.example.getmyparking.network.ParkingApi
-import com.example.getmyparking.utils.Constants.SECRET_KEY
-import com.example.getmyparking.utils.Constants.USER_NAME
-import retrofit2.Response
+import com.example.getmyparking.utils.Resource
+import com.google.android.gms.maps.model.LatLngBounds
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import okhttp3.internal.toImmutableList
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 class ParkingRepository @Inject constructor(
-    private val parkingApi: ParkingApi
+    private val parkingRemoteDataSource: ParkingRemoteDataSource,
+
 ):BaseRepository() {
 
-    @Throws(Exception::class)
-    suspend fun getParkingOfCity(pageSize:Int, pageNo:Int , city:String): Response<ParkingList> {
-        try{
-            val authorization = getAuthorizeHeader(SECRET_KEY)
-            Timber.tag("ApiCheck").d(" authorization: $authorization")
-            val date = getCurrentTime()
-            Timber.tag("ApiCheck").d(" date: $date")
-            return parkingApi.getParkingOfCity(
-                pageSize = pageSize,
-                pageNo = pageNo,
-                city = city,
-                authorization = authorization,
-                date = date,
-                username = USER_NAME
-            )
-        }catch (e: Exception){
-            throw  e
+
+    fun getParking(city: String, shouldFetch: Boolean) =
+        flow<Resource<List<ParkingEntity>>> {
+            emit(Resource.Loading())
+            val data = getParkingFromLocal(city).first()
+            if (shouldFetch || data.isEmpty()) {
+                getAllParkingFromCity(city).collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            resource.data?.let { parkingList ->
+                                insertParkingToDB(parkingList)
+                                getParkingFromLocal(city).collect {
+                                    emit(Resource.Success(it))
+                                }
+                            }
+                        }
+                        is Resource.Error -> {
+                            resource.message?.let {
+                                emit(Resource.Error(it))
+                            }
+                        }
+                        is Resource.Loading -> {
+                            emit(Resource.Loading())
+                        }
+                    }
+                }
+            } else {
+                emit(Resource.Success(data))
+            }
         }
+
+    private suspend fun insertParkingToDB(parkingList: List<ParkingEntity>) =
+        parkingDao.insertParkingLocations(parkingList)
+
+
+    private fun getParkingFromLocal(city: String) =
+        parkingDao.getParkingOfCity(city)
+
+
+    private suspend fun getAllParkingFromCity(city: String) = flow{
+        var page = 1
+        val tempParkingList = ArrayList<Parking>()
+        while (page != -1){
+            when(val response = getParkingFromRemote(page, city)){
+                is Resource.Success -> {
+                    response.data?.let {parkingList->
+                        Timber.tag("ApiCheck").d(" repo: Success: ${parkingList.parkingList.map {it.city}}")
+                        page += 1
+                        if (parkingList.parkingList.isEmpty()){
+                            page = -1
+                        }
+                        tempParkingList.addAll(parkingList.parkingList)
+                    }
+                }
+                is Resource.Error -> {
+                    Timber.tag("ApiCheck").d(" repo: error: ${response.message}")
+                    emit(response.message?.let { Resource.Error(it) })
+                    page = -1
+                }
+                is Resource.Loading -> {
+                    emit(Resource.Loading())
+                    Timber.tag("ApiCheck").d(" repo: loading: ")
+                }
+            }
+        }
+        emit(Resource.Success(tempParkingList.map { it.toParkingEntity() }))
     }
 
+
+
+    private suspend fun getParkingFromRemote(pageNo: Int, city: String) =
+       parkingRemoteDataSource.getParkingOfCity(pageNo = pageNo , city = city)
+
+
+    fun getParkingBetweenBounds(latLngBounds: LatLngBounds) =
+        parkingDao.getParkingBetweenBounds(
+            neLat = latLngBounds.northeast.latitude,
+            neLong = latLngBounds.northeast.longitude,
+            swLat = latLngBounds.southwest.latitude,
+            swLong = latLngBounds.southwest.longitude
+        )
+
+
+    /*private suspend fun getAllParkingFromCity(city: String) {
+        var page = 1
+
+        while (page != -1){
+            when(val response = getParkingFromRemote(page, city)){
+                is Resource.Success -> {
+                    response.data?.let {parkingList->
+                        Timber.tag("ApiCheck").d(" repo: Success: ${parkingList.parkingList.map {it.city}}")
+                        page += 1
+                        if (parkingList.parkingList.isEmpty()){
+                            page = -1
+                        }
+                        insertParkingToDB(parkingList)
+                    }
+                }
+                is Resource.Error -> {
+                    Timber.tag("ApiCheck").d(" repo: error: ${response.message}")
+                    page = -1
+
+                }
+                is Resource.Loading -> {
+                    Timber.tag("ApiCheck").d(" repo: loading: ")
+                }
+            }
+        }
+
+    }*/
 }

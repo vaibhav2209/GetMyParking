@@ -18,6 +18,7 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
     protected var _binding:K? = null
     protected val binding get() = _binding!!
 
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -46,6 +47,18 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
         }catch (e: NullPointerException) {
             Timber.e("NullPointerException: Couldn't open map. ${e.message}")
             Toast.makeText(requireActivity(), "Couldn't open map", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun showLoading(){
+        if (!loadingDialogFragment.isAdded){
+            loadingDialogFragment.show(childFragmentManager, "loader")
+        }
+    }
+
+    fun hideLoading(){
+        if (loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
         }
     }
 }

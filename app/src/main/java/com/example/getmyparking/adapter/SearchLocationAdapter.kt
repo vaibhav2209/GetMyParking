@@ -33,19 +33,19 @@ class SearchLocationAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        val txtCity = itemView.findViewById<TextView>(R.id.city_name)
-        val txtCountry = itemView.findViewById<TextView>(R.id.country_name)
+        private val txtCity:TextView = itemView.findViewById(R.id.city_name)
+        private val txtCountry:TextView = itemView.findViewById(R.id.country_name)
         init {
             itemView.setOnClickListener(this)
         }
 
         fun bind(){
-            txtCity.text = differ.currentList[adapterPosition].featureName
-            txtCountry.text = differ.currentList[adapterPosition].countryName
+            txtCity.text = differ.currentList[absoluteAdapterPosition].featureName
+            txtCountry.text = differ.currentList[absoluteAdapterPosition].countryName
         }
         override fun onClick(v: View?) {
-            if (adapterPosition != RecyclerView.NO_POSITION)
-                listener.onSearchResultClick(differ.currentList[adapterPosition])
+            if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
+                listener.onSearchResultClick(differ.currentList[absoluteAdapterPosition])
         }
 
     }

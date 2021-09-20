@@ -1,7 +1,11 @@
 package com.example.getmyparking.models
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.getmyparking.utils.enums.ParkingLotType
 import com.example.getmyparking.utils.enums.PaymentAt
+
 
 data class ParkingLot(
     val capacity: Int,

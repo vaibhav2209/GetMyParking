@@ -1,12 +1,10 @@
 package com.example.getmyparking
 
 import android.app.Application
-import com.example.getmyparking.network.WebServiceProvider
 import com.google.android.libraries.places.api.Places
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
 @HiltAndroidApp
 class MyApplication : Application() {
@@ -18,7 +16,10 @@ class MyApplication : Application() {
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, getString(R.string.google_maps_key), Locale.US);
         }
+
     }
+
+    fun getSHA256Key() = BuildConfig.HMAC_SHA256_KEY
 
 
 }

@@ -9,4 +9,6 @@ object Constants {
 
     const val SECRET_KEY = "yGFTnY6WR4BhU46kjDAA"
     const val USER_NAME = "marutisuzuki"
+
+    const val GOOGLE_DRIVE_BASE_URL = "https://docs.google.com/uc?id="
 }

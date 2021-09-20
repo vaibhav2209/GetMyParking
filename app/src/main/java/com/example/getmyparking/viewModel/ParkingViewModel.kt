@@ -1,20 +1,22 @@
 package com.example.getmyparking.viewModel
 
 import android.location.Address
+import android.location.Geocoder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.getmyparking.models.Parking
-import com.example.getmyparking.models.ParkingList
-import com.example.getmyparking.models.ParkingLot
-import com.example.getmyparking.network.GsonRequest
-import com.example.getmyparking.network.RequestType
-import com.example.getmyparking.network.WebServiceProvider
+import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.repository.ParkingRepository
 import com.example.getmyparking.utils.Resource
-import com.google.gson.GsonBuilder
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 
@@ -23,11 +25,21 @@ class ParkingViewModel @Inject constructor(
     private val parkingRepository: ParkingRepository
 ) : BaseViewModel(){
 
-    private val _parkingList = MutableLiveData<Resource<ParkingList>>()
-    val parkingList:LiveData<Resource<ParkingList>> = _parkingList
+    private val _parkingList = MutableLiveData<Resource<List<ParkingEntity>>>()
+    val parkingList:LiveData<Resource<List<ParkingEntity>>> = _parkingList
 
     private val _searchedLocations = MutableLiveData<Resource<List<Address>>>()
     val searchedLocations:LiveData<Resource<List<Address>>> = _searchedLocations
+
+
+    private val _currentViewedParking = MutableLiveData<List<ParkingEntity>>()
+    val currentViewedParking:LiveData<List<ParkingEntity>> = _currentViewedParking
+
+    private val _markerList = MutableLiveData<List<Marker>>()
+
+    private val _selectedParkingDetail = MutableLiveData<ParkingEntity>()
+    val selectedParkingDetail : LiveData<ParkingEntity> = _selectedParkingDetail
+
 
     fun setSearchedLocation(addresses: Resource<List<Address>>?){
         addresses?.let {
@@ -35,24 +47,58 @@ class ParkingViewModel @Inject constructor(
         }
     }
 
+    fun addMarkers(markerList: List<Marker>){
+        _markerList.value = markerList
+    }
 
-    fun getParkingOfCity(pageSize:Int, pageNo: Int , city:String) = viewModelScope.launch {
-        _parkingList.postValue(Resource.Loading())
-        try{
-            val response = parkingRepository.getParkingOfCity(
-                pageSize = pageSize,
-                pageNo = pageNo,
-                city = city
-            )
-            if (response.isSuccessful) {
-                response.body()?.let { parkingList ->
-                    _parkingList.postValue(Resource.Success(parkingList))
+    fun getSelectedMarkerDetail(position:LatLng) = viewModelScope.launch(Dispatchers.IO) {
+        val parkingEntity =  _currentViewedParking.value?.find {
+            it.latitude == position.latitude && it.longitude == position.longitude
+        }
+        _selectedParkingDetail.postValue(parkingEntity)
+    }
+
+    fun getParkingForCity(city:String, shouldFetch:Boolean = false) = viewModelScope.launch(Dispatchers.IO) {
+        parkingRepository.getParking(city, shouldFetch).collect {resource->
+            when(resource){
+                is Resource.Success -> {
+                    resource.data?.let {
+                        Timber.tag("ApiCheck").d(" viewModel: Success: ${it.size}")
+                        _parkingList.postValue(Resource.Success(it))
+                    }
                 }
-            } else {
-                _parkingList.postValue(response.errorBody()?.let { Resource.Error(it.string()) })
+                is Resource.Loading -> {
+                    Timber.tag("ApiCheck").d(" viewModel: loading:")
+                    _parkingList.postValue(Resource.Loading())
+                }
+                is Resource.Error -> {
+                    Timber.tag("ApiCheck").d(" viewModel: error: ${resource.message}")
+                    resource.message?.let {
+                        _parkingList.postValue(Resource.Error(it))
+                    }
+                }
             }
-        }catch (e: Exception){
-            _parkingList.postValue(e.message?.let { Resource.Error(it) })
         }
     }
+
+    fun getParkingForCurrentBound(bound: LatLngBounds) = viewModelScope.launch(Dispatchers.IO){
+        val temp = ArrayList<ParkingEntity>()
+        _parkingList.value?.data?.forEach { parkingEntity ->
+            if(bound.contains(LatLng(parkingEntity.latitude, parkingEntity.longitude))){
+                temp.add(parkingEntity)
+            }
+        }
+        _currentViewedParking.postValue(temp)
+    }
+
+    fun getParkingBetweenBound(bound: LatLngBounds) = viewModelScope.launch(Dispatchers.IO) {
+        parkingRepository.getParkingBetweenBounds(bound).collect { parking->
+            Timber.tag("BoundCheck").d("${parking.map { it.city }}")
+            _currentViewedParking.postValue(parking)
+        }
+    }
+
+
+
+
 }

@@ -3,10 +3,14 @@ package com.example.getmyparking.di
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.getmyparking.MyApplication
-import com.example.getmyparking.network.API.BASE_URL
-import com.example.getmyparking.network.ParkingApi
-import com.example.getmyparking.network.WebServiceProvider
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.example.getmyparking.data.local.ParkingDao
+import com.example.getmyparking.data.local.ParkingDatabase
+import com.example.getmyparking.data.remote.API.BASE_URL
+import com.example.getmyparking.data.remote.ParkingApi
+import com.example.getmyparking.data.remote.ParkingRemoteDataSource
+import com.example.getmyparking.data.remote.WebServiceProvider
 import com.example.getmyparking.repository.HMACSHA256Generator
 import com.example.getmyparking.repository.HMACSHA256GeneratorImpl
 import com.example.getmyparking.utils.EnumConverterFactory
@@ -47,4 +51,28 @@ object AppModule {
     @Singleton
     fun provideHMACSHA256Generator():HMACSHA256Generator =
         HMACSHA256GeneratorImpl()
+
+
+    @Provides
+    @Singleton
+    fun provideRoomDatabase(
+        @ApplicationContext app: Context
+    ): ParkingDatabase =
+        Room.databaseBuilder(
+            app,
+            ParkingDatabase::class.java,
+            "ParkingDatabase"
+        ).build()
+
+    @Provides
+    @Singleton
+    fun provideParkingDao(db: ParkingDatabase): ParkingDao =
+        db.getParkingDao()
+
+
+    /*@Provides
+    @Singleton
+    fun provideParkingRemoteDataSource(parkingApi: ParkingApi): ParkingRemoteDataSource =
+        ParkingRemoteDataSource(parkingApi)*/
+
 }

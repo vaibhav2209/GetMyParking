@@ -1,4 +1,4 @@
-package com.example.getmyparking.network
+package com.example.getmyparking.data.remote
 
 object API {
 
