@@ -16,7 +16,7 @@
     <string name="vehicle_type">Vehicle Type</string>
     <string name="done">Done</string>
     <string name="book_now">Book Now</string>
-    <string name="value_added_services">Value Added Services</string>
+    <string name="service_on_wheel">Service on Wheels</string>
     <string name="location">Location</string>
     <string name="hours">Hours</string>
     <string name="total_price">Total Price</string>
@@ -24,5 +24,22 @@
     <string name="commercial">Commercial</string>
     <string name="n_a">N/A</string>
     <string name="total_price_value">₹ %1$s</string>
+    <string name="payment_type">Payment Type</string>
+    <string name="other_details">Other Details</string>
+    <string name="parking_type">Parking Type</string>
+    <string name="ownership">Ownership</string>
+    <string name="structure">Structure</string>
+    <string name="cctv_installed">CCTV installed</string>
+    <string name="ticketing_system">Ticketing system</string>
+    <string name="payment_at">Payment At</string>
+    <string name="payment_methods">Payment Methods</string>
+    <string name="no_result_found">No result found</string>
+    <string name="car_sanitization_and_cleanup">Car Sanitization and Cleanup</string>
+    <string name="car_wash">Car Wash</string>
+    <string name="regular_periodic_maintenance">Regular Periodic Maintenance</string>
+    <string name="free_service_for_new_car">Free Service for New Car</string>
+    <string name="car_sanitization_price">₹ 500</string>
+    <string name="car_Wash_price">₹ 100</string>
+    <string name="regular_maintenance_price">Prices as per kilometers</string>
 
 </resources>

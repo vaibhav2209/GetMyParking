@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.getmyparking.BaseActivity
 import com.example.getmyparking.R
 import com.example.getmyparking.repository.HMACSHA256Generator
+import com.example.getmyparking.utils.Utilities
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -25,7 +26,6 @@ class MainActivity : AppCompatActivity(){
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
-
     }
     companion object{
         val permissions = arrayListOf(

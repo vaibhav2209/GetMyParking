@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.getmyparking.R
 import com.example.getmyparking.adapter.UserVehiclesAdapter
@@ -39,6 +40,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), UserVehicleAdapt
     private fun setupUI(){
         binding.cardPersonalDetail.setOnClickListener { showUserDetail() }
         binding.imgBtnAdd.setOnClickListener { addNewVehicle() }
+        binding.backBtn.setOnClickListener { findNavController().popBackStack() }
 
         mAdapter = UserVehiclesAdapter(arrayListOf(), this)
         binding.recyclerVehicals.adapter = mAdapter

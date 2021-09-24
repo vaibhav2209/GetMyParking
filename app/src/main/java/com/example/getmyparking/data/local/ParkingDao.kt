@@ -23,4 +23,7 @@ interface ParkingDao {
 
      @Query("SELECT EXISTS (SELECT city FROM ParkingEntity WHERE city LIKE :city)")
      fun isCityParkingAvailable(city: String):Flow<Boolean>
+
+     @Insert(onConflict = OnConflictStrategy.IGNORE)
+     suspend fun insertCity(cityEntity: CityEntity)
 }

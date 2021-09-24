@@ -6,19 +6,16 @@ import android.content.Intent
 import android.content.IntentSender
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.example.getmyparking.R
 import com.example.getmyparking.adapter.SearchLocationAdapter
 import com.example.getmyparking.databinding.FragmentMapBinding
+import com.example.getmyparking.interfaces.BottomParkingDialogListener
 import com.example.getmyparking.interfaces.SearchLocationAdapterListener
 import com.example.getmyparking.ui.MainActivity
 import com.example.getmyparking.utils.*
@@ -41,25 +38,24 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
+import android.os.Handler
+import android.os.Looper
+import com.example.getmyparking.R
+import com.example.getmyparking.utils.Utilities.isNetworkAvailable
+
 
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
-    OnMarkerClickListener, OnCameraMoveStartedListener, OnMapClickListener,
-    OnMyLocationClickListener, OnMyLocationButtonClickListener,
-    SearchLocationAdapterListener, OnCameraMoveListener, OnCameraIdleListener{
+    SearchLocationAdapterListener, OnCameraIdleListener, BottomParkingDialogListener{
 
 
     private var mMap: GoogleMap? = null
@@ -74,18 +70,34 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        locationRequest()
-        checkLocationSetting()
+        Timber.d("onCreate:")
+        checkInternetConnection()
     }
 
+    private fun checkInternetConnection(){
+        if (isNetworkAvailable(requireContext())){
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            locationRequest()
+            checkLocationSetting()
+        }else{
+            showAlertDialog(title = "Network issue!",
+                message = "check you internet connection",
+                positiveText = "Try again",
+                positiveBtnClick = {
+                    checkInternetConnection()
+                },
+                negativeBtnClick = {
+                    requireActivity().finish()
+                })
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding =  FragmentMapBinding.inflate(inflater, container, false)
+        Timber.d("onCreateView:")
         setupUI()
         setupObserver()
         return  binding.root
@@ -101,15 +113,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         mMap = googleMap
         setupClusterManager()
         mMap?.apply {
-            uiSettings.isMyLocationButtonEnabled = true
+            uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isZoomControlsEnabled = false
             isMyLocationEnabled  = true
             setOnMarkerClickListener(clusterManager)
-            setOnCameraMoveStartedListener(this@MapFragment)
-            setOnMapClickListener(this@MapFragment)
-            setOnMyLocationClickListener(this@MapFragment)
-            setOnMyLocationButtonClickListener(this@MapFragment)
-            setOnCameraMoveListener(this@MapFragment)
             setOnCameraIdleListener(this@MapFragment)
         }
         getLastLocation()
@@ -168,49 +175,47 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         binding.user.setOnClickListener {
             navigateToNextScreen(R.id.action_mapFragment_to_profileFragment)
         }
-
-        /*autocompleteFragment =
-            childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-                    as AutocompleteSupportFragment
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))*/
     }
 
     private fun setupObserver(){
 
         binding.fragMapSearchText.addTextChangedListener(object :TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                binding.searchRecycler.visibility = View.VISIBLE
+                binding.frameAutosuggestion.visibility = View.VISIBLE
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                findPlace(s.toString())
+                findParkingForLocation(s.toString())
             }
         })
 
 
         parkingViewModel.searchedLocations.observe(viewLifecycleOwner, { response->
-           when(response){
-               is Resource.Success->{
+            when(response){
+                is Resource.Success->{
                     response.data?.let {addressList ->
-                        Timber.tag("ApiCheck").d(" searchLocation observer:success")
+                        binding.txtNoResultFound.visibility = if (addressList.isEmpty()) View.VISIBLE else View.GONE
+                        binding.autosuggestionLoader.visibility = View.GONE
                         mAdapter.submitList(addressList)
                     }
-               }
+                }
 
-               is Resource.Error->{
-                   Timber.tag("ApiCheck").d(" searchLocation observer:error")
-                   response.message?.let {
-                        toastMessage(it)
-                   }
-               }
+                is Resource.Error->{
+                    response.message?.let {
+                        binding.frameAutosuggestion.visibility = View.GONE
+                        if (!it.contains("grpc failed")){
+                            toastMessage(it)
+                        }
+                    }
+                }
 
-               is Resource.Loading->{
-                   Timber.tag("ApiCheck").d(" searchLocation observer:loading")
-               }
-           }
+                is Resource.Loading->{
+                    binding.autosuggestionLoader.visibility = View.VISIBLE
+                }
+            }
         })
 
         parkingViewModel.parkingList.observe(viewLifecycleOwner, { response->
@@ -218,14 +223,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
                 is Resource.Success->{
                     parkingViewModel.setLoadingState(false)
                     response.data?.let {parkingList ->
-                       Timber.tag("ApiCheck").d(" parking observer: Success: ${parkingList.size}")
+                        getParkingBetweenBound()
+                        Timber.d(" parking observer: Success: ${parkingList.size}")
                     }
                 }
 
                 is Resource.Error->{
                     parkingViewModel.setLoadingState(false)
                     val errorDto = response.message?.let { Utilities.deserializeParkingError(it) }
-                    Timber.tag("ApiCheck").d(" parking observer: error: $errorDto")
+                    Timber.d(" parking observer: error: $errorDto")
                     if (errorDto?.parkingErrorCode == ParkingErrorCode.UNAUTHORIZED_CITY_ACCESS){
                         toastMessage("Currently Parking is not available in your city")
                     }else{
@@ -234,7 +240,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
                 }
 
                 is Resource.Loading->{
-                    Timber.tag("ApiCheck").d("parking observer: loading:")
+                    Timber.d("parking observer: loading:")
                     parkingViewModel.setLoadingState(true)
                 }
             }
@@ -248,10 +254,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         }
 
         parkingViewModel.currentViewedParking.observe(viewLifecycleOwner) { list ->
-            Timber.tag("ApiCheck").d(" current viewed parking observer:")
-            //mMap?.clear()
+            Timber.d(" current viewed parking observer:")
             list?.let { parkingList ->
-                val markerList = ArrayList<Marker>()
                 clusterManager.clearItems()
                 parkingList.forEach { parking ->
                     val marker = ClusterMarker(
@@ -262,32 +266,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
                         isDynamic = parking.isDynamicParking
                     )
                     clusterManager.addItem(marker)
-//                    val markerIcon = if (parking.isDynamicParking)
-//                        R.drawable.ic_dynamic_parking_marker
-//                    else
-//                        R.drawable.ic_parking_marker
-//
-//                    val marker = addMarker(LatLng(parking.latitude, parking.longitude),markerIcon)
-//                    marker?.let {
-//                        it.tag = parking.id
-//                        markerList.add(it)
-//                    }
-//                }
-//                parkingViewModel.addMarkers(markerList)
                 }
                 clusterManager.cluster()
             }
         }
-
-        /*autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                Timber.d("Searched Places: latLng: ${place.latLng}  address: ${place.address}")
-            }
-
-            override fun onError(status: Status) {
-                Timber.e("error: ${status.statusMessage}")
-            }
-        })*/
     }
 
     private fun setupClusterManager(){
@@ -295,13 +277,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         clusterManager.renderer = ClusterRenderer(requireContext(), mMap!!, clusterManager)
 
         clusterManager.setOnClusterClickListener { clusterList->
-            Timber.tag("clustering").d("onCLusterCLick ${clusterList.size}")
+            Timber.d("onCLusterCLick ${clusterList.size}")
             return@setOnClusterClickListener true
         }
         clusterManager.setOnClusterItemClickListener { clusterMarker->
-            Timber.tag("clustering").d("onCLusterItemCLick ${clusterMarker.position}")
+            Timber.d("onCLusterItemCLick ${clusterMarker.position}")
             parkingViewModel.getSelectedMarkerDetail(clusterMarker.position)
-            navigateToNextScreen(R.id.action_mapFragment_to_bottomParkingDetailDialogFragment)
+            openBottomParkingDialog()
             return@setOnClusterItemClickListener true
         }
     }
@@ -313,7 +295,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
             it?.let { location ->
                 val latLng = LatLng(location.latitude, location.longitude)
                 zoomMapToLocation(latLng)
-                findParkingForCurrentLocation(latLng)
+                findParkingForLocation(latLng)
             }
         }
     }
@@ -351,11 +333,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         )
     }
 
-    private fun findPlace(place: String) {
-        Timber.tag("ApiCheck").d("findplace")
+    private fun findParkingForLocation(place: String) {
+        parkingViewModel.setSearchedLocation(Resource.Loading())
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
-                parkingViewModel.setSearchedLocation(Resource.Loading())
                 var addresses = ArrayList<Address>()
                 try {
                     addresses =
@@ -366,6 +347,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
                     Timber.d("location: $addresses")
                     parkingViewModel.setSearchedLocation(Resource.Success(data = addresses))
                 } catch (e: IOException) {
+                    Timber.d("location: $e")
                     parkingViewModel.setSearchedLocation(e.message?.let { Resource.Error(it) })
                     e.printStackTrace()
                 }
@@ -373,7 +355,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         }
     }
 
-    private fun findParkingForCurrentLocation(latLng: LatLng) = CoroutineScope(Dispatchers.IO).launch {
+    private fun findParkingForLocation(latLng: LatLng) = CoroutineScope(Dispatchers.IO).launch {
         kotlin.runCatching {
             val addresses: ArrayList<Address>
             try {
@@ -391,50 +373,63 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
         }
     }
 
+    private fun getParkingBetweenBound(){
+        Timber.d("getParkingBetweenBound")
+        val bounds = mMap?.projection?.visibleRegion?.latLngBounds
+        if (bounds != null) {
+            parkingViewModel.getParkingBetweenBound(bounds)
+        }
+    }
+
     override fun onSearchResultClick(address: Address) {
         clearEditTextFocus(binding.fragMapSearchText, requireActivity())
-        binding.searchRecycler.visibility = View.VISIBLE
         Timber.tag("ApiCheck").d(" onSearchResultCLick: ${address.locality}")
-        address.locality?.let { parkingViewModel.getParkingForCity(it) }
         zoomMapToLocation(
             LatLng(
                 address.latitude,
                 address.longitude
             )
         )
-    }
-
-    override fun onMarkerClick(marker: Marker): Boolean {
-//        parkingViewModel.getSelectedMarkerDetail(marker)
-//        navigateToNextScreen(R.id.action_mapFragment_to_bottomParkingDetailDialogFragment)
-        return true
-    }
-
-    override fun onCameraMoveStarted(p0: Int) {
-
-    }
-
-
-
-    override fun onMapClick(latLng: LatLng) {
-
-    }
-
-    override fun onMyLocationClick(p0: Location) {
-
-    }
-
-    override fun onMyLocationButtonClick(): Boolean {
-        return false
-    }
-
-    override fun onCameraMove() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            address.locality?.let { parkingViewModel.getParkingForCity(it) }
+        }, 1500)
     }
 
     override fun onCameraIdle() {
-        val bounds = mMap?.projection?.visibleRegion?.latLngBounds
-        if (bounds != null) {
-            parkingViewModel.getParkingBetweenBound(bounds)
-        }
+       getParkingBetweenBound()
+    }
+
+    private fun openBottomParkingDialog(){
+        val bottomDialog = BottomParkingDetailDialogFragment(this)
+        bottomDialog.show(requireActivity().supportFragmentManager, "BottomParkingDialog")
+    }
+
+    private fun openServiceBottomDialog(){
+        val bottomDialog = ServiceOnWheelsFragment()
+        bottomDialog.show(requireActivity().supportFragmentManager, "ServiceOnWheelsDialog")
+    }
+
+    override fun onBookNowClick() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            navigateToNextScreen(R.id.action_mapFragment_to_bookingFragment)
+        }, 200)
+    }
+
+    override fun onDetailClick() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            navigateToNextScreen(R.id.action_mapFragment_to_parkingDetailFragment)
+        }, 200)
+    }
+
+    override fun onNavigateClick(position: LatLng?) {
+        Handler(Looper.getMainLooper()).postDelayed({
+            position?.let { openGoogleMapApplication(it) }
+        }, 200)
+    }
+
+    override fun onVASClick() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            openServiceBottomDialog()
+        }, 100)
     }
 }

@@ -52,6 +52,10 @@ class AddVehicleFragment : BaseFragment<FragmentAddVehicleBinding>() {
 
             }
         }
+
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 

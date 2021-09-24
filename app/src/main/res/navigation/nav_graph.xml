@@ -27,14 +27,18 @@
         android:label="fragment_map"
         tools:layout="@layout/fragment_map">
         <action
-            android:id="@+id/action_mapFragment_to_bottomParkingDetailDialogFragment"
-            app:destination="@id/bottomParkingDetailDialogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            />
-        <action
             android:id="@+id/action_mapFragment_to_profileFragment"
             app:destination="@id/profileFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
+        <action
+            android:id="@+id/action_mapFragment_to_parkingDetailFragment"
+            app:destination="@id/parkingDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"/>
+        <action
+            android:id="@+id/action_mapFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"/>
     </fragment>
@@ -54,18 +58,7 @@
         android:id="@+id/bottomParkingDetailDialogFragment"
         android:name="com.example.getmyparking.ui.fragments.BottomParkingDetailDialogFragment"
         android:label="fragment_bottom_parking_detail_dialog"
-        tools:layout="@layout/fragment_bottom_parking_detail_dialog" >
-        <action
-            android:id="@+id/action_bottomParkingDetailDialogFragment_to_parkingDetailFragment"
-            app:destination="@id/parkingDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
-        <action
-            android:id="@+id/action_bottomParkingDetailDialogFragment_to_bookingFragment"
-            app:destination="@id/bookingFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
-    </dialog>
+        tools:layout="@layout/fragment_bottom_parking_detail_dialog" />
 
     <fragment
         android:id="@+id/parkingDetailFragment"
@@ -89,6 +82,10 @@
         android:id="@+id/bookingFragment"
         android:name="com.example.getmyparking.ui.fragments.BookingFragment"
         android:label="fragment_booking"
-        tools:layout="@layout/fragment_booking" />
+        tools:layout="@layout/fragment_booking" >
+        <action
+            android:id="@+id/action_bookingFragment_to_parkingDetailFragment"
+            app:destination="@id/parkingDetailFragment" />
+    </fragment>
 
 </navigation>

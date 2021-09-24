@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.ParkingDetailFragment">
 
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/image_viewPager"
         android:layout_width="match_parent"
@@ -15,6 +16,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/backBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardCornerRadius="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/page_margin"
+        android:layout_marginTop="@dimen/page_margin">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/ic_arrow_back_black" />
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -32,6 +51,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -149,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -160,7 +180,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/value_added_services"
+                        android:text="@string/service_on_wheel"
                         android:layout_marginStart="@dimen/page_margin"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
@@ -177,7 +197,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Car wash"
+                        android:text="@string/car_sanitization_and_cleanup"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/text_grey"
                         android:layout_marginStart="@dimen/page_margin"
@@ -190,7 +210,7 @@
                         android:id="@+id/txt_pricing_car_wash"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rs 250"
+                        android:text="@string/car_sanitization_price"
                         android:textColor="@color/text_grey"
                         android:layout_marginTop="5dp"
                         android:layout_marginStart="@dimen/page_margin"
@@ -202,7 +222,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="car maintenance"
+                        android:text="@string/car_wash"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/text_grey"
                         android:layout_marginStart="@dimen/page_margin"
@@ -215,7 +235,7 @@
                         android:id="@+id/txt_pricing_maintenance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rs 50"
+                        android:text="@string/car_Wash_price"
                         android:textColor="@color/text_grey"
                         android:layout_marginTop="5dp"
                         android:layout_marginStart="@dimen/page_margin"
@@ -227,7 +247,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Electric car charging"
+                        android:text="@string/regular_periodic_maintenance"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/text_grey"
                         android:layout_marginStart="@dimen/page_margin"
@@ -240,7 +260,7 @@
                         android:id="@+id/txt_pricing_charging"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rs 500"
+                        android:text="@string/regular_maintenance_price"
                         android:textColor="@color/text_grey"
                         android:layout_marginTop="5dp"
                         android:layout_marginStart="@dimen/page_margin"
@@ -442,6 +462,233 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_grey"
+                android:layout_marginTop="5dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment_methods"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_payment_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_grey"
+                android:layout_marginStart="@dimen/page_margin"
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textAppearance="@style/text_regular"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/background_grey"
+                android:layout_marginTop="5dp"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other_details"
+                    android:layout_marginStart="@dimen/page_margin"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="14sp"
+                    android:textAppearance="@style/text_regular"/>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingHorizontal="@dimen/page_margin">
+
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <LinearLayout
+                    android:id="@+id/linear_ownership"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/ownership"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ownership"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/n_a"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_structure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_ownership"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/structure"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/structure"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/n_a"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_cctv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_structure"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/cctv_installed"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cctv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/n_a"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_powerSupply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_cctv"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Power supply available"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/powerSupply"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/n_a"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_ticketingSystem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_powerSupply"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/ticketing_system"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ticketingSystem"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/n_a"
+                        android:textAppearance="@style/text_regular"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 

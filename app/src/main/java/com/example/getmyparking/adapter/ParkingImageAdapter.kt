@@ -45,6 +45,29 @@ class ParkingImageAdapter(
                 .load(urlList[absoluteAdapterPosition])
                 .thumbnail(0.33f)
                 .apply(options)
+                .listener(
+                    object : RequestListener<Drawable?> {
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any,
+                            target: Target<Drawable?>,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            imgView.setImageResource(R.drawable.img_parking_place)
+                            return true
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable?>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return false
+                        }
+                    }
+                )
                 .into(imgView)
         }
         override fun onClick(v: View?) {

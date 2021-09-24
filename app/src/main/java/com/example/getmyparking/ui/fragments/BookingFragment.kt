@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.getmyparking.R
 import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.databinding.FragmentBookingBinding
+import com.example.getmyparking.models.ValueAddedServices
 import com.example.getmyparking.utils.enums.ParkingLotType
 import com.example.getmyparking.utils.enums.VehicleType
 import com.example.getmyparking.viewModel.BookingViewModel
@@ -42,26 +45,57 @@ class BookingFragment : BaseFragment<FragmentBookingBinding>() {
     private fun setupUI(){
         setupHoursDropDown()
         binding.btnProceed.setOnClickListener {
+            toastMessage("Successfully Booked")
+        }
 
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.imgInfo.setOnClickListener {
+            navigateToNextScreen(R.id.action_bookingFragment_to_parkingDetailFragment)
         }
 
     }
 
     private fun setupObserver(){
         parkingViewModel.selectedParkingDetail.observe(viewLifecycleOwner){
-            d("selectedParkingDetail: $it")
-            it?.let { setupInfo(it) }
-        }
-        bookingViewModel.selectedVehicleType.observe(viewLifecycleOwner){
-            it?.let { parkingLot->
-                d("selectedVehicleType: $it")
+            it?.let {
+                setupInfo(it)
+                bookingViewModel.setParkingLots(it.parkingLots)
             }
         }
-
         bookingViewModel.totalPrice.observe(viewLifecycleOwner){
             it?.let {
                 binding.txtTotalPrice.text = getString(R.string.total_price_value, it.toString())
             }
+        }
+        binding.checkboxMaintenance.setOnCheckedChangeListener { buttonView, isChecked ->
+            bookingViewModel.updateVASList(
+                ValueAddedServices(
+                    serviceName = "Regular Maintenance",
+                    price = 1000.0
+                )
+            )
+
+        }
+        binding.checkboxCleanup.setOnCheckedChangeListener { buttonView, isChecked ->
+            bookingViewModel.updateVASList(
+                ValueAddedServices(
+                    serviceName = "Car Sanitization and Cleanup",
+                    price = 500.0
+                )
+            )
+
+        }
+        binding.checkboxWash.setOnCheckedChangeListener { buttonView, isChecked ->
+            bookingViewModel.updateVASList(
+                ValueAddedServices(
+                    serviceName = "Car Wash",
+                    price = 50.0
+                )
+            )
+
         }
     }
 
@@ -77,42 +111,20 @@ class BookingFragment : BaseFragment<FragmentBookingBinding>() {
     private fun setupVehicleDropDown(vehicleList: List<ParkingLotType?>){
         val vehicleTypeAdapter = ArrayAdapter(requireContext(), R.layout.list_item, vehicleList.map { it?.name })
 
-        binding.autoCompleteVehicleType.setAdapter(vehicleTypeAdapter)
-        binding.autoCompleteVehicleType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-
+        (binding.textInputVehicleType.editText as? AutoCompleteTextView)?.setAdapter(vehicleTypeAdapter)
+        binding.autoCompleteVehicleType.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
                 bookingViewModel.setSelectedVehicleType(vehicleList[position])
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
     }
 
     private fun setupHoursDropDown(){
         val hoursAdapter = ArrayAdapter(requireContext(), R.layout.list_item, hoursList)
-        binding.autoCompleteHours.setAdapter(hoursAdapter)
-        binding.autoCompleteHours.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                d("hour Item selected: $position")
+        (binding.textInputHours.editText as? AutoCompleteTextView)?.setAdapter(hoursAdapter)
+        binding.autoCompleteHours.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
                 bookingViewModel.setHourlyPrice(hoursList[position])
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-        }
     }
 
 

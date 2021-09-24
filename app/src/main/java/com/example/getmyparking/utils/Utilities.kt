@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkInfo
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -19,6 +22,10 @@ import com.google.gson.reflect.TypeToken
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import android.os.Build
+
+import android.net.NetworkCapabilities
+import java.text.DateFormat
 
 
 object Utilities {
@@ -53,25 +60,19 @@ object Utilities {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun openingTimeFormatter(starTime:String, endTime:String) {
-        val date = SimpleDateFormat("hh-mm a", Locale.getDefault())
-        val weekDay = SimpleDateFormat("EEE", Locale.getDefault())
-
-        try {
-            Timber.tag("DateFormatter").d("startTime: $starTime")
-            val dateobj = date.parse(starTime)
-            Timber.tag("DateFormatter").d("dateObj: $dateobj")
-            val dat = date.format(dateobj)
-            Timber.tag("DateFormatter").d("dat: $dat")
+    fun openingTimeFormatter(time:String): String? {
+        val readFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val writeFormat = SimpleDateFormat("hh:mm aa", Locale.getDefault())
+        return try {
+            val startObj = readFormat.parse(time)
+            if (startObj != null){
+                return writeFormat.format(startObj)
+            }else{
+                null
+            }
         }catch (e:Exception){
-            Timber.tag("DateFormatter").d("exception: ${e.message}")
+            null
         }
-
-        /*return StringBuilder()
-            .append(date.format(date.parse(starTime)))
-            .append("-")
-            .append(date.format(date.parse(endTime)))
-            .toString()*/
     }
 
     fun driveImageLinkGenerator(link:String): String {
@@ -87,5 +88,25 @@ object Utilities {
     fun deserializeParkingError(errorJson: String): ParkingErrorDto? {
         val type = object : TypeToken<ParkingErrorDto>() {}.type
         return Gson().fromJson(errorJson, type)
+    }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val nw = connectivityManager.activeNetwork ?: return false
+            val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+            return when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                //for other device how are able to connect with Ethernet
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                //for check internet over Bluetooth
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+                else -> false
+            }
+        } else {
+            return connectivityManager.activeNetworkInfo?.isConnected ?: false
+        }
     }
 }

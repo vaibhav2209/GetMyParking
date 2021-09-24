@@ -1,6 +1,7 @@
 package com.example.getmyparking.repository
 
 
+import com.example.getmyparking.data.local.CityEntity
 import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.data.mapper.toParkingEntity
 
@@ -33,6 +34,7 @@ class ParkingRepository @Inject constructor(
                         is Resource.Success -> {
                             resource.data?.let { parkingList ->
                                 insertParkingToDB(parkingList)
+                                insertCityToDB(parkingList.first().city)
                                 getParkingFromLocal(city).collect {
                                     emit(Resource.Success(it))
                                 }
@@ -55,6 +57,9 @@ class ParkingRepository @Inject constructor(
 
     private suspend fun insertParkingToDB(parkingList: List<ParkingEntity>) =
         parkingDao.insertParkingLocations(parkingList)
+
+    private suspend fun insertCityToDB(city: String) =
+        parkingDao.insertCity(CityEntity(city))
 
 
     private fun getParkingFromLocal(city: String) =
@@ -91,7 +96,6 @@ class ParkingRepository @Inject constructor(
     }
 
 
-
     private suspend fun getParkingFromRemote(pageNo: Int, city: String) =
        parkingRemoteDataSource.getParkingOfCity(pageNo = pageNo , city = city)
 
@@ -103,33 +107,4 @@ class ParkingRepository @Inject constructor(
             swLat = latLngBounds.southwest.latitude,
             swLong = latLngBounds.southwest.longitude
         )
-
-
-    /*private suspend fun getAllParkingFromCity(city: String) {
-        var page = 1
-
-        while (page != -1){
-            when(val response = getParkingFromRemote(page, city)){
-                is Resource.Success -> {
-                    response.data?.let {parkingList->
-                        Timber.tag("ApiCheck").d(" repo: Success: ${parkingList.parkingList.map {it.city}}")
-                        page += 1
-                        if (parkingList.parkingList.isEmpty()){
-                            page = -1
-                        }
-                        insertParkingToDB(parkingList)
-                    }
-                }
-                is Resource.Error -> {
-                    Timber.tag("ApiCheck").d(" repo: error: ${response.message}")
-                    page = -1
-
-                }
-                is Resource.Loading -> {
-                    Timber.tag("ApiCheck").d(" repo: loading: ")
-                }
-            }
-        }
-
-    }*/
 }

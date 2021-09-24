@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/page_margin"
+    android:paddingBottom="@dimen/page_margin"
+    tools:context=".ui.fragments.ServiceOnWheelsFragment">
+
+    <ImageView
+        android:id="@+id/closeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_close_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/service_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/service_on_wheel"
+        android:textAppearance="@style/text_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/closeBtn" />
+
+    <TextView
+        android:id="@+id/service_car_sanitization"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/car_sanitization_and_cleanup"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/service_heading" />
+
+    <TextView
+        android:id="@+id/service_car_sanitization_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginStart="20dp"
+        android:text="@string/car_sanitization_price"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/service_car_sanitization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/service_car_sanitization"
+        app:layout_constraintTop_toTopOf="@+id/service_car_sanitization" />
+
+    <TextView
+        android:id="@+id/car_wash"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/car_wash"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/service_car_sanitization" />
+
+    <TextView
+        android:id="@+id/car_wash_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginStart="20dp"
+        android:text="@string/car_Wash_price"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/car_wash"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/car_wash" />
+
+    <TextView
+        android:id="@+id/regular_maintainance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/regular_periodic_maintenance"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/car_wash" />
+
+    <TextView
+        android:id="@+id/regular_maintainance_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:gravity="end"
+        android:text="@string/regular_maintenance_price"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/regular_maintainance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/regular_maintainance" />
+
+    <TextView
+        android:id="@+id/free_service"
+        android:layout_width="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Offer:"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/primary_theme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regular_maintainance" />
+
+    <TextView
+        android:id="@+id/free_service_price"
+        android:layout_width="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_height="wrap_content"
+        android:text="New Car Owner? Avail your first 3 services for free."
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/free_service"
+        app:layout_constraintTop_toTopOf="@+id/free_service" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

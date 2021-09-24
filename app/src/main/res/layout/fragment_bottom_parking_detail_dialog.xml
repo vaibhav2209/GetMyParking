@@ -84,7 +84,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:visibility="visible"
-            android:text="@string/value_added_services"
+            android:text="@string/service_on_wheel"
             />
 
     </LinearLayout>

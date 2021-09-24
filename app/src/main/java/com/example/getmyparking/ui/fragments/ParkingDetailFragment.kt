@@ -6,16 +6,20 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.example.getmyparking.R
 import com.example.getmyparking.adapter.ParkingImageAdapter
 import com.example.getmyparking.animations.ImageSlideAnimation
 import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.data.local.ParkingLotEntity
 import com.example.getmyparking.databinding.FragmentParkingDetailBinding
 import com.example.getmyparking.interfaces.ParkingImagesListener
+import com.example.getmyparking.utils.Utilities
 import com.example.getmyparking.utils.Utilities.driveImageLinkGenerator
 import com.example.getmyparking.utils.enums.ParkingLotType
 import com.example.getmyparking.viewModel.ParkingViewModel
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -25,6 +29,7 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
 
     private lateinit var imageAdapter: ParkingImageAdapter
     private val parkingViewModel:ParkingViewModel by activityViewModels()
+    private var position:LatLng? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,10 +52,17 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
         }
 
         binding.btnNavigate.setOnClickListener {
+            position?.let {
+                openGoogleMapApplication(it)
+            }
         }
 
         binding.btnBookNow.setOnClickListener {
+            navigateToNextScreen(R.id.action_parkingDetailFragment_to_bookingFragment)
+        }
 
+        binding.backBtn.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -60,6 +72,7 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
                 super.onPageSelected(position)
 
             }
+
         })
 
         parkingViewModel.selectedParkingDetail.observe(viewLifecycleOwner){
@@ -71,13 +84,14 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
     }
 
     private fun setupInfo(parkingEntity: ParkingEntity) {
+        position = LatLng(parkingEntity.latitude, parkingEntity.longitude)
         parkingEntity.apply {
             if (!isDynamicParking){
                 binding.btnBookNow.visibility = GONE
+                binding.linearVAS.visibility = GONE
             }
             binding.areaName.text = displayName
             binding.cityName.text = city
-            binding.txtOpeningHours.text = operationalHours?.first()?.openTime
             parkingLots?.forEach { parkingLotEntity ->
                 val parkingCost:String = if(isDynamicParking)
                     getParkingPrice(parkingLotEntity)
@@ -98,9 +112,30 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
                     }
                 }
             }
+
+            binding.ticketingSystem.text = ticketingSystem?.toString()
+            binding.cctv.text = cctvInstalled?.toString()
+            binding.powerSupply.text = powerSupplyAvailable?.toString()
+            binding.structure.text = structure?.name
+            binding.ownership.text = ownership?.name
+            binding.txtPaymentType.text = paymentMethods.toString()
+            operationalHours?.first()?.apply {
+                val startTime = openTime?.let { openTime->
+                    return@let Utilities.openingTimeFormatter(openTime)
+                }
+                val endTime = closeTime?.let { closeTime->
+                    return@let Utilities.openingTimeFormatter(closeTime)
+                }
+                if (startTime != null && endTime != null){
+                    binding.txtOpeningHours.text = StringBuilder().append(startTime).append("-").append(endTime).toString()
+                }
+            }
+
             setupParkingImages(parkingEntity)
         }
     }
+
+
 
     private fun setupParkingImages(parkingEntity: ParkingEntity){
         val parkingImagesUrls = ArrayList<String>().apply {

@@ -7,13 +7,32 @@
 
     tools:context=".ui.fragments.BookingFragment">
 
+    <RelativeLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/toolbar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/page_margin"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_arrow_back_black" />
+
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/appBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -187,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="@string/value_added_services"
+                android:text="@string/service_on_wheel"
                 android:textAppearance="@style/text_header"
                 android:textColor="@color/primary_theme"
                 app:layout_constraintStart_toStartOf="@+id/textInput_hours"
@@ -206,23 +225,23 @@
                     android:padding="10dp">
 
                     <CheckBox
-                        android:id="@+id/checkbox_maintenance"
+                        android:id="@+id/checkbox_cleanup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Car Maintenance" />
+                        android:text="@string/car_sanitization_and_cleanup" />
 
                     <CheckBox
                         android:id="@+id/checkbox_wash"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/primary_theme"
-                        android:text="Car Wash" />
+                        android:text="@string/car_wash" />
 
                     <CheckBox
-                        android:id="@+id/checkbox_charging"
+                        android:id="@+id/checkbox_maintenance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Electric Car Charging" />
+                        android:text="@string/regular_periodic_maintenance" />
 
 
                 </LinearLayout>
@@ -263,7 +282,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="$ 250.00"
+                android:text="₹ 0.00"
                 android:textAppearance="@style/text_header"
                 android:textColor="@color/primary_theme"
                 android:textSize="12sp"/>

@@ -35,8 +35,6 @@ class ParkingViewModel @Inject constructor(
     private val _currentViewedParking = MutableLiveData<List<ParkingEntity>>()
     val currentViewedParking:LiveData<List<ParkingEntity>> = _currentViewedParking
 
-    private val _markerList = MutableLiveData<List<Marker>>()
-
     private val _selectedParkingDetail = MutableLiveData<ParkingEntity>()
     val selectedParkingDetail : LiveData<ParkingEntity> = _selectedParkingDetail
 
@@ -45,10 +43,6 @@ class ParkingViewModel @Inject constructor(
         addresses?.let {
             _searchedLocations.postValue(addresses)
         }
-    }
-
-    fun addMarkers(markerList: List<Marker>){
-        _markerList.value = markerList
     }
 
     fun getSelectedMarkerDetail(position:LatLng) = viewModelScope.launch(Dispatchers.IO) {
@@ -81,22 +75,14 @@ class ParkingViewModel @Inject constructor(
         }
     }
 
-    fun getParkingForCurrentBound(bound: LatLngBounds) = viewModelScope.launch(Dispatchers.IO){
-        val temp = ArrayList<ParkingEntity>()
-        _parkingList.value?.data?.forEach { parkingEntity ->
-            if(bound.contains(LatLng(parkingEntity.latitude, parkingEntity.longitude))){
-                temp.add(parkingEntity)
-            }
-        }
-        _currentViewedParking.postValue(temp)
-    }
-
     fun getParkingBetweenBound(bound: LatLngBounds) = viewModelScope.launch(Dispatchers.IO) {
         parkingRepository.getParkingBetweenBounds(bound).collect { parking->
             Timber.tag("BoundCheck").d("${parking.map { it.city }}")
             _currentViewedParking.postValue(parking)
         }
     }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.example.getmyparking.ui.fragments
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.lang.NullPointerException
@@ -46,7 +48,7 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
             }
         }catch (e: NullPointerException) {
             Timber.e("NullPointerException: Couldn't open map. ${e.message}")
-            Toast.makeText(requireActivity(), "Couldn't open map", Toast.LENGTH_SHORT).show()
+            toastMessage("Couldn't open map")
         }
     }
 
@@ -60,5 +62,29 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
         if (loadingDialogFragment.isAdded) {
             loadingDialogFragment.dismissAllowingStateLoss()
         }
+    }
+
+    fun showAlertDialog(
+        positiveText:String = "Okay",
+        negativeBtnText:String = "Cancel",
+        title:String,
+        message: String,
+        isCancelable:Boolean = true,
+        positiveBtnClick:() -> Unit,
+        negativeBtnClick: () -> Unit
+    ){
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setCancelable(isCancelable)
+            .setPositiveButton(positiveText){dialog, which->
+                positiveBtnClick()
+                dialog.dismiss()
+            }
+            .setNegativeButton(negativeBtnText){dialog, which->
+                negativeBtnClick()
+                dialog.dismiss()
+            }
+            .show()
     }
 }
