@@ -3,16 +3,11 @@ package com.example.getmyparking.ui
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import com.example.getmyparking.BaseActivity
 import com.example.getmyparking.R
-import com.example.getmyparking.repository.HMACSHA256Generator
-import com.example.getmyparking.utils.Utilities
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.example.getmyparking.R
 import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.databinding.FragmentBottomParkingDetailDialogBinding
 import com.example.getmyparking.interfaces.BottomParkingDialogListener
@@ -72,6 +73,7 @@ class BottomParkingDetailDialogFragment(
         if(!parkingEntity.isDynamicParking){
             binding.btnBookNow.visibility = GONE
             binding.btnVAS.visibility = GONE
+            binding.parkingIcon.setImageResource(R.drawable.ic_parking_marker)
         }
         binding.areaName.text = parkingEntity.displayName
         binding.cityName.text = parkingEntity.city

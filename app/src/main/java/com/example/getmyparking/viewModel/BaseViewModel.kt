@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.getmyparking.data.local.ParkingEntity
 import com.example.getmyparking.utils.enums.ParkingLotType
 import com.example.getmyparking.utils.enums.ParkingType
+import timber.log.Timber
 
 open class BaseViewModel :ViewModel(){
 
@@ -14,5 +15,9 @@ open class BaseViewModel :ViewModel(){
 
     fun setLoadingState(isLoading:Boolean){
         _loadingState.value = isLoading
+    }
+
+    fun <T> MutableLiveData<T>.notifyObserver(){
+        this.value = this.value
     }
 }

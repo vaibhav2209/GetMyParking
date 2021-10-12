@@ -185,10 +185,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                findParkingForLocation(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
-                findParkingForLocation(s.toString())
             }
         })
 
@@ -383,6 +383,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(), OnMapReadyCallback,
 
     override fun onSearchResultClick(address: Address) {
         clearEditTextFocus(binding.fragMapSearchText, requireActivity())
+        binding.frameAutosuggestion.visibility = View.GONE
         Timber.tag("ApiCheck").d(" onSearchResultCLick: ${address.locality}")
         zoomMapToLocation(
             LatLng(

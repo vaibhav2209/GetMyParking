@@ -9,7 +9,7 @@ import com.example.getmyparking.models.Parking
 import com.example.getmyparking.models.ParkingLot
 
 @Database(
-    entities = [ParkingEntity::class, ContractorInfoEntity::class, CityEntity::class],
+    entities = [ParkingEntity::class, ContractorInfoEntity::class, CityEntity::class, CarEntity::class],
     version = 1
 )
 @TypeConverters(Converters::class)

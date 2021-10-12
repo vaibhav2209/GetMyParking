@@ -18,7 +18,7 @@ class SearchLocationAdapter(
 
     private val differCallback = object: DiffUtil.ItemCallback<Address>(){
         override fun areItemsTheSame(oldItem: Address, newItem: Address): Boolean {
-            return oldItem.featureName == newItem.featureName
+            return oldItem.getAddressLine(0) == newItem.getAddressLine(0)
         }
 
         override fun areContentsTheSame(oldItem: Address, newItem: Address): Boolean {
@@ -40,7 +40,7 @@ class SearchLocationAdapter(
         }
 
         fun bind(){
-            txtCity.text = differ.currentList[absoluteAdapterPosition].featureName
+            txtCity.text = differ.currentList[absoluteAdapterPosition].getAddressLine(0)
             txtCountry.text = differ.currentList[absoluteAdapterPosition].countryName
         }
         override fun onClick(v: View?) {

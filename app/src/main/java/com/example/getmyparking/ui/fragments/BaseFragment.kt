@@ -3,6 +3,7 @@ package com.example.getmyparking.ui.fragments
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -32,8 +33,8 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    protected fun navigateToNextScreen(navigationId: Int){
-        findNavController().navigate(navigationId)
+    protected fun navigateToNextScreen(navigationId: Int, bundle: Bundle? = null){
+        findNavController().navigate(navigationId, bundle)
     }
 
     fun openGoogleMapApplication(latLng: LatLng) {
@@ -71,7 +72,7 @@ open class BaseFragment<K:ViewBinding> : Fragment() {
         message: String,
         isCancelable:Boolean = true,
         positiveBtnClick:() -> Unit,
-        negativeBtnClick: () -> Unit
+        negativeBtnClick: () -> Unit = { }
     ){
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(title)

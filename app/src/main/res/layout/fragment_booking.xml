@@ -29,8 +29,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rel_total_price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar">
 
@@ -157,6 +158,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                app:endIconTint="@color/bg_grey"
+                app:endIconCheckable="false"
                 app:boxBackgroundColor="@color/bg_grey"
                 app:hintTextAppearance="@style/text_regular"
                 app:layout_constraintStart_toStartOf="@+id/txt_vehicle_heading"
@@ -170,19 +173,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/txt_startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Parking time"
+                android:textAppearance="@style/text_header"
+                android:textColor="@color/primary_theme"
+                app:layout_constraintStart_toStartOf="@+id/txt_vehicle_heading"
+                app:layout_constraintTop_toBottomOf="@+id/textInput_vehicleType" />
+
+            <TextView
+                android:id="@+id/edit_startTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                app:boxBackgroundColor="@color/bg_grey"
+                app:hintTextAppearance="@style/text_regular"
+                android:background="@color/bg_grey"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_startTime"/>
+
 
             <TextView
                 android:id="@+id/txt_hours_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Hours"
+                android:text="Parking Hours"
+                android:visibility="gone"
                 android:textAppearance="@style/text_header"
                 android:textColor="@color/primary_theme"
-                app:layout_constraintStart_toStartOf="@+id/txt_vehicle_heading"
-                app:layout_constraintTop_toBottomOf="@+id/textInput_vehicleType" />
+                app:layout_constraintStart_toStartOf="@+id/edit_startTime"
+                app:layout_constraintTop_toBottomOf="@+id/edit_startTime" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:visibility="gone"
                 android:id="@+id/textInput_hours"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
@@ -212,11 +240,23 @@
                 app:layout_constraintStart_toStartOf="@+id/textInput_hours"
                 app:layout_constraintTop_toBottomOf="@+id/textInput_hours" />
 
+            <TextView
+                android:id="@+id/txt_VAS_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/SOW_description"
+                android:textAppearance="@style/text_regular"
+                android:textSize="12sp"
+                android:textColor="@color/text_grey"
+                app:layout_constraintStart_toStartOf="@+id/txt_VAS_heading"
+                app:layout_constraintTop_toBottomOf="@+id/txt_VAS_heading" />
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/txt_VAS_heading">
+                app:layout_constraintTop_toBottomOf="@+id/txt_VAS_description">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -230,6 +270,18 @@
                         android:layout_height="wrap_content"
                         android:text="@string/car_sanitization_and_cleanup" />
 
+                    <TextView
+                        android:id="@+id/service_car_sanitization_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/car_sanitization_desc"
+                        android:textAppearance="@style/text_regular"
+                        android:textSize="10sp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="-10dp"
+                        android:textColor="@color/text_grey"
+                        tools:ignore="SmallSp" />
+
                     <CheckBox
                         android:id="@+id/checkbox_wash"
                         android:layout_width="wrap_content"
@@ -237,12 +289,35 @@
                         android:backgroundTint="@color/primary_theme"
                         android:text="@string/car_wash" />
 
+                    <TextView
+                        android:id="@+id/service_car_wash_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/car_wash_desc"
+                        android:textAppearance="@style/text_regular"
+                        android:textSize="10sp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="-10dp"
+                        android:textColor="@color/text_grey"
+                        tools:ignore="SmallSp" />
+
                     <CheckBox
                         android:id="@+id/checkbox_maintenance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/regular_periodic_maintenance" />
 
+                    <TextView
+                        android:id="@+id/service_regular_maintainance_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/regular_maintainance_desc"
+                        android:textAppearance="@style/text_regular"
+                        android:textSize="10sp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="-10dp"
+                        android:textColor="@color/text_grey"
+                        tools:ignore="SmallSp" />
 
                 </LinearLayout>
 
@@ -255,6 +330,7 @@
     </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/rel_total_price"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -294,11 +370,12 @@
             android:id="@+id/btn_proceed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/proceed"
-            android:textAllCaps="false"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/primary_theme"
+            android:text="@string/proceed"
+            android:textAllCaps="false" />
 
 
     </RelativeLayout>

@@ -27,11 +27,12 @@
             android:name="HmacSha256Key"
             android:value="${HMAC_SHA256_KEY}"/>
         
-        <service android:name=".services.LocationServices"
-            android:foregroundServiceType="location"/>
+<!--        <service android:name=".services.LocationServices"-->
+<!--            android:foregroundServiceType="location"/>-->
     
 
         <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

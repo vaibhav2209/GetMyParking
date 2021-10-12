@@ -4,13 +4,10 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.getmyparking.data.local.ParkingDao
 import com.example.getmyparking.data.local.ParkingDatabase
 import com.example.getmyparking.data.remote.API.BASE_URL
 import com.example.getmyparking.data.remote.ParkingApi
-import com.example.getmyparking.data.remote.ParkingRemoteDataSource
-import com.example.getmyparking.data.remote.WebServiceProvider
 import com.example.getmyparking.repository.HMACSHA256Generator
 import com.example.getmyparking.repository.HMACSHA256GeneratorImpl
 import com.example.getmyparking.utils.EnumConverterFactory
@@ -27,13 +24,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Singleton
-    @Provides
-    fun provideWebServiceProvider(
-        @ApplicationContext app: Context
-    ) = WebServiceProvider(app)
-
 
     @Singleton
     @Provides
@@ -68,11 +58,5 @@ object AppModule {
     @Singleton
     fun provideParkingDao(db: ParkingDatabase): ParkingDao =
         db.getParkingDao()
-
-
-    /*@Provides
-    @Singleton
-    fun provideParkingRemoteDataSource(parkingApi: ParkingApi): ParkingRemoteDataSource =
-        ParkingRemoteDataSource(parkingApi)*/
 
 }

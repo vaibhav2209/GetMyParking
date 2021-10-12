@@ -19,4 +19,5 @@
     <color name="background_grey">#F5F5F5</color>
     <color name="text_grey">#717171</color>
     <color name="loading_grey">#F0F0F0</color>
+    <color name="line_grey">#ECEDEF</color>
 </resources>

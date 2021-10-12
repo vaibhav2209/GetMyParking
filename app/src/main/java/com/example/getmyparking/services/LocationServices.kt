@@ -16,7 +16,7 @@ import com.google.android.gms.location.LocationResult
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+/*@AndroidEntryPoint
 class LocationServices: LifecycleService(){
 
     @Inject
@@ -54,4 +54,4 @@ class LocationServices: LifecycleService(){
             updatedLocations.postValue(result.locations)
         }
     }
-}
+}*/

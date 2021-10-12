@@ -10,7 +10,7 @@
     <string name="car">Car</string>
     <string name="capacity">Capacity</string>
     <string name="personal_details">Personal Details</string>
-    <string name="vehicals">Vehicals</string>
+    <string name="vehicals">Vehicle</string>
     <string name="vehicle_model">Vehicle Model</string>
     <string name="vehicle_number">Vehicle Number</string>
     <string name="vehicle_type">Vehicle Type</string>
@@ -41,5 +41,16 @@
     <string name="car_sanitization_price">₹ 500</string>
     <string name="car_Wash_price">₹ 100</string>
     <string name="regular_maintenance_price">Prices as per kilometers</string>
+    <string name="summary">Summary</string>
+    <string name="problem_tag">In case of any problems or cancellations, please contact care@getmyparking.com. Maruti Suzuki is providing this digital service as an aggregator in partnership with other vendors and does not operate the parking on ground. Local parking operator is responsible for the operations inside their parking lot. </string>
+    <string name="SOW_description">Nearest service provider will call you to arrange for your selected service</string>
+    <string name="car_sanitization_desc">Thorough cleaning from inside out (60 mins)</string>
+    <string name="car_wash_desc">Dry wash from outside (20 mins)</string>
+    <string name="regular_maintainance_desc">List of services as per KMs driven (variable)</string>
+    <string name="customer_support">Customer Support</string>
+    <string name="pay">Pay</string>
+    <string name="save">Save</string>
+    <string name="none">None</string>
+    <string name="click_to_add_vehicles">Click + to Add Vehicles</string>
 
 </resources>

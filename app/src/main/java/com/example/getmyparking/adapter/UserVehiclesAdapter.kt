@@ -8,27 +8,28 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.getmyparking.R
+import com.example.getmyparking.data.local.CarEntity
 import com.example.getmyparking.interfaces.UserVehicleAdapterListener
 import com.example.getmyparking.models.Vehicle
 
 class UserVehiclesAdapter(
-    private val vehicleList:ArrayList<Vehicle>,
+    private val vehicleList:ArrayList<CarEntity>,
     private val listener: UserVehicleAdapterListener
 ): RecyclerView.Adapter<UserVehiclesAdapter.ViewHolder>() {
 
-    private val differCallback = object: DiffUtil.ItemCallback<Vehicle>(){
-        override fun areItemsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
-            return oldItem.vehicleNumber == newItem.vehicleNumber
+    private val differCallback = object: DiffUtil.ItemCallback<CarEntity>(){
+        override fun areItemsTheSame(oldItem: CarEntity, newItem: CarEntity): Boolean {
+            return oldItem.number == newItem.number
         }
 
-        override fun areContentsTheSame(oldItem: Vehicle, newItem: Vehicle): Boolean {
+        override fun areContentsTheSame(oldItem: CarEntity, newItem: CarEntity): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
 
     private val differ = AsyncListDiffer(this, differCallback)
 
-    fun submitList(list:List<Vehicle>) = differ.submitList(list)
+    fun submitList(list:List<CarEntity>) = differ.submitList(list)
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -43,14 +44,14 @@ class UserVehiclesAdapter(
 
         fun bind(){
 
-            txtVehicleNumber.text = differ.currentList[adapterPosition].vehicleNumber
-            txtVehicleModel.text = differ.currentList[adapterPosition].vehicleModel
-            txtVehicleType.text = differ.currentList[adapterPosition].vehicleType.name
+            txtVehicleNumber.text = differ.currentList[absoluteAdapterPosition].number
+            txtVehicleModel.text = differ.currentList[absoluteAdapterPosition].model
+            txtVehicleType.text = differ.currentList[absoluteAdapterPosition].type.name
 
         }
         override fun onClick(v: View?) {
-            if (adapterPosition != RecyclerView.NO_POSITION)
-                listener.onVehicleClick(differ.currentList[adapterPosition])
+            if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
+                listener.onVehicleClick(differ.currentList[absoluteAdapterPosition])
         }
 
     }

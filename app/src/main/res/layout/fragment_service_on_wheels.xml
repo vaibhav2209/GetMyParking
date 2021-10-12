@@ -28,6 +28,18 @@
         app:layout_constraintTop_toBottomOf="@+id/closeBtn" />
 
     <TextView
+        android:id="@+id/txt_VAS_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/SOW_description"
+        android:textAppearance="@style/text_regular"
+        android:textSize="12sp"
+        android:textColor="@color/text_grey"
+        app:layout_constraintStart_toStartOf="@+id/service_heading"
+        app:layout_constraintTop_toBottomOf="@+id/service_heading" />
+
+    <TextView
         android:id="@+id/service_car_sanitization"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -38,7 +50,20 @@
         android:textColor="@color/text_grey"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/service_heading" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_VAS_description" />
+
+    <TextView
+        android:id="@+id/service_car_sanitization_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/car_sanitization_desc"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/service_car_sanitization"
+        app:layout_constraintTop_toBottomOf="@+id/service_car_sanitization"
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/service_car_sanitization_price"
@@ -59,13 +84,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
         android:text="@string/car_wash"
         android:textAppearance="@style/text_regular"
         android:textColor="@color/text_grey"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/service_car_sanitization" />
+        app:layout_constraintTop_toBottomOf="@+id/service_car_sanitization_desc" />
+
+    <TextView
+        android:id="@+id/service_car_wash_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/car_wash_desc"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/car_wash"
+        app:layout_constraintTop_toBottomOf="@+id/car_wash"
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/car_wash_price"
@@ -85,14 +123,27 @@
         android:id="@+id/regular_maintainance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:text="@string/regular_periodic_maintenance"
         android:textAppearance="@style/text_regular"
         android:textColor="@color/text_grey"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/car_wash" />
+        app:layout_constraintTop_toBottomOf="@+id/service_car_wash_desc" />
+
+    <TextView
+        android:id="@+id/service_regular_maintainance_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/regular_maintainance_desc"
+        android:textAppearance="@style/text_regular"
+        android:textColor="@color/text_grey"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/regular_maintainance"
+        app:layout_constraintTop_toBottomOf="@+id/regular_maintainance"
+        tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/regular_maintainance_price"
@@ -111,14 +162,13 @@
     <TextView
         android:id="@+id/free_service"
         android:layout_width="0dp"
-        android:layout_marginEnd="30dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="Offer:"
+        android:layout_marginTop="20dp"
         android:textAppearance="@style/text_regular"
         android:textColor="@color/primary_theme"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regular_maintainance" />
+        app:layout_constraintTop_toBottomOf="@+id/service_regular_maintainance_desc" />
 
     <TextView
         android:id="@+id/free_service_price"

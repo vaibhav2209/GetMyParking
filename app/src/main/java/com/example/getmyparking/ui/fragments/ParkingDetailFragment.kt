@@ -1,13 +1,18 @@
 package com.example.getmyparking.ui.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.util.CoilUtils
 import com.example.getmyparking.R
 import com.example.getmyparking.adapter.ParkingImageAdapter
 import com.example.getmyparking.animations.ImageSlideAnimation
@@ -21,6 +26,11 @@ import com.example.getmyparking.utils.enums.ParkingLotType
 import com.example.getmyparking.viewModel.ParkingViewModel
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -89,6 +99,7 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
             if (!isDynamicParking){
                 binding.btnBookNow.visibility = GONE
                 binding.linearVAS.visibility = GONE
+                binding.parkingIcon.setImageResource(R.drawable.ic_parking_marker)
             }
             binding.areaName.text = displayName
             binding.cityName.text = city
@@ -118,7 +129,9 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
             binding.powerSupply.text = powerSupplyAvailable?.toString()
             binding.structure.text = structure?.name
             binding.ownership.text = ownership?.name
-            binding.txtPaymentType.text = paymentMethods.toString()
+            if (paymentMethods.isNotEmpty()){
+                binding.txtPaymentType.text = paymentMethods.toString().drop(1).dropLast(1)
+            }
             operationalHours?.first()?.apply {
                 val startTime = openTime?.let { openTime->
                     return@let Utilities.openingTimeFormatter(openTime)
@@ -143,14 +156,52 @@ class ParkingDetailFragment : BaseFragment<FragmentParkingDetailBinding>(), Park
             parkingEntity.entrancePhotoAdditional?.let { add(it) }
             parkingEntity.areaPhoto?.let { add(driveImageLinkGenerator(it)) }
             parkingEntity.areaPhoto2?.let { add(driveImageLinkGenerator(it)) }
-            parkingEntity.extraPhoto?.let { add(driveImageLinkGenerator(it)) }
+            //parkingEntity.extraPhoto?.let { add(driveImageLinkGenerator(it)) }
             parkingEntity.receiptPhoto?.let { add(driveImageLinkGenerator(it)) }
         }
-        imageAdapter.submitUrls(parkingImagesUrls)
+        checkImage(parkingImagesUrls)
     }
 
+    private fun checkImage(urlList:List<String>) = CoroutineScope(Dispatchers.IO).launch{
+        val drawableList = arrayListOf<Drawable>()
+        val imageLoader = ImageLoader.Builder(requireContext())
+            .okHttpClient {
+                OkHttpClient.Builder()
+                    .cache(CoilUtils.createDefaultCache(requireContext()))
+                    .build()
+            }
+            .build()
 
+        urlList.forEach {
+            val request = ImageRequest.Builder(requireContext())
+                .data(it)
+                .target (
+                    onSuccess = { result ->
+                        binding.lottieImgLoading.visibility = GONE
+                        imageAdapter.submitUrls(result)
+                        drawableList.add(result)
+                        Timber.d("onSuccess:")
+                    },
+                    onError = {
+                        Timber.d("onError:")
+                    },
+                    onStart = {
+                        Timber.d("onStart:")
+                    }
+                )
+                .build()
+            imageLoader.execute(request)
+        }
+        if (drawableList.isEmpty()) {
+            withContext(Dispatchers.Main) {
+                ContextCompat.getDrawable(requireContext(), R.drawable.img_parking_place)?.let {
+                    imageAdapter.submitUrls(it)
+                    binding.lottieImgLoading.visibility = GONE
+                }
+            }
+        }
 
+    }
 
     private fun getParkingPrice(parkingLotEntity: ParkingLotEntity) =
         StringBuilder()

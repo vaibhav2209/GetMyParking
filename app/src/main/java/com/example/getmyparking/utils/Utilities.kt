@@ -50,7 +50,7 @@ object Utilities {
         hideKeyBoard(activity)
     }
 
-    private fun hideKeyBoard(activity: Activity){
+    fun hideKeyBoard(activity: Activity){
         val imm: InputMethodManager =
             activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         var view: View? = activity.currentFocus
@@ -73,6 +73,19 @@ object Utilities {
         }catch (e:Exception){
             null
         }
+    }
+    
+    fun getCurrentTimeHoursMinute():Pair<Int, Int>{
+        val c = Calendar.getInstance()
+        val mHour = c.get(Calendar.HOUR_OF_DAY)
+        val mMinute = c.get(Calendar.MINUTE)
+
+        return Pair(mHour, mMinute)
+    }
+
+    fun convertTimeIntoString(calendar: Calendar): String {
+        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        return format.format(calendar.time)
     }
 
     fun driveImageLinkGenerator(link:String): String {

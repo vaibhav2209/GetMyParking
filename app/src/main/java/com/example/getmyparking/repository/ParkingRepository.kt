@@ -10,10 +10,7 @@ import com.example.getmyparking.models.Parking
 import com.example.getmyparking.models.ParkingList
 import com.example.getmyparking.utils.Resource
 import com.google.android.gms.maps.model.LatLngBounds
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import okhttp3.internal.toImmutableList
 import timber.log.Timber
 import javax.inject.Inject
@@ -23,36 +20,35 @@ class ParkingRepository @Inject constructor(
 
 ):BaseRepository() {
 
-
-    fun getParking(city: String, shouldFetch: Boolean) =
+    fun getParking(city: String, shouldFetch: Boolean = false) =
         flow<Resource<List<ParkingEntity>>> {
             emit(Resource.Loading())
-            val data = getParkingFromLocal(city).first()
-            if (shouldFetch || data.isEmpty()) {
-                getAllParkingFromCity(city).collect { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
-                            resource.data?.let { parkingList ->
-                                insertParkingToDB(parkingList)
-                                insertCityToDB(parkingList.first().city)
-                                getParkingFromLocal(city).collect {
-                                    emit(Resource.Success(it))
+            val data = getParkingFromLocal(city).firstOrNull()
+                if (shouldFetch || data.isNullOrEmpty()) {
+                    getAllParkingFromCity(city).collect { resource ->
+                        when (resource) {
+                            is Resource.Success -> {
+                                resource.data?.let { parkingList ->
+                                    insertParkingToDB(parkingList)
+                                    //insertCityToDB(parkingList.first().city)
+                                    getParkingFromLocal(city).collect {
+                                        emit(Resource.Success(it))
+                                    }
                                 }
                             }
-                        }
-                        is Resource.Error -> {
-                            resource.message?.let {
-                                emit(Resource.Error(it))
+                            is Resource.Error -> {
+                                resource.message?.let {
+                                    emit(Resource.Error(it))
+                                }
+                            }
+                            is Resource.Loading -> {
+                                emit(Resource.Loading())
                             }
                         }
-                        is Resource.Loading -> {
-                            emit(Resource.Loading())
-                        }
                     }
+                } else {
+                    emit(Resource.Success(data))
                 }
-            } else {
-                emit(Resource.Success(data))
-            }
         }
 
     private suspend fun insertParkingToDB(parkingList: List<ParkingEntity>) =

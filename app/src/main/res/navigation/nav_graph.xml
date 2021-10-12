@@ -30,17 +30,23 @@
             android:id="@+id/action_mapFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_mapFragment_to_parkingDetailFragment"
             app:destination="@id/parkingDetailFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
         <action
             android:id="@+id/action_mapFragment_to_bookingFragment"
             app:destination="@id/bookingFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
 
     <fragment
@@ -52,7 +58,9 @@
             android:id="@+id/action_profileFragment_to_addVehicleFragment"
             app:destination="@id/addVehicleFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <dialog
         android:id="@+id/bottomParkingDetailDialogFragment"
@@ -69,7 +77,9 @@
             android:id="@+id/action_parkingDetailFragment_to_bookingFragment"
             app:destination="@id/bookingFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"/>
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/addVehicleFragment"
@@ -85,7 +95,36 @@
         tools:layout="@layout/fragment_booking" >
         <action
             android:id="@+id/action_bookingFragment_to_parkingDetailFragment"
-            app:destination="@id/parkingDetailFragment" />
+            app:destination="@id/parkingDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_bookingFragment_to_bookingSummaryFragment"
+            app:destination="@id/bookingSummaryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_bookingFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
+    <fragment
+        android:id="@+id/bookingSummaryFragment"
+        android:name="com.example.getmyparking.ui.fragments.BookingSummaryFragment"
+        android:label="fragment_booking_summary"
+        tools:layout="@layout/fragment_booking_summary" >
+
+        <argument
+            android:name="bookingSummary"
+            app:argType="string[]"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

@@ -40,6 +40,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTxt_vehicleModel"
             android:layout_width="match_parent"
+            android:inputType="textCapSentences"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +56,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTxt_vehicleNumber"
             android:layout_width="match_parent"
+            android:textAllCaps="true"
+            android:inputType="textCapCharacters"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/done"
+        android:text="@string/save"
         android:textAllCaps="false"
         />
 </LinearLayout>

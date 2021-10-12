@@ -5,17 +5,21 @@
       <map>
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/drawable/bg_booking_screen_bottom.xml" value="0.24114583333333334" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/activity_main.xml" value="0.22083333333333333" />
-        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.22083333333333333" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.264" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_booking.xml" value="0.4" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_booking_summary.xml" value="0.4463157894736842" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_bottom_parking_detail_dialog.xml" value="0.4" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_map.xml" value="0.4" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_mini_parking_detail_dialog.xml" value="0.22083333333333333" />
-        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_parking_detail.xml" value="0.264" />
-        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_profile.xml" value="0.4" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_parking_detail.xml" value="0.4" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_profile.xml" value="0.536" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_service_on_wheels.xml" value="0.4" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/fragment_splash_screen.xml" value="0.22083333333333333" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/layout_parking_image.xml" value="0.22083333333333333" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/list_item.xml" value="0.22083333333333333" />
         <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/loader_layout.xml" value="0.22083333333333333" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/search_recycler_layout.xml" value="0.22083333333333333" />
+        <entry key="..\:/Office Work/GMP/GetMyParking/app/src/main/res/layout/vehicle_detail_layout.xml" value="0.6" />
         <entry key="..\:/Office Work/GetMyParking/app/src/main/res/drawable/bg_booking_screen_bottom.xml" value="0.24114583333333334" />
         <entry key="..\:/Office Work/GetMyParking/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.4" />
         <entry key="..\:/Office Work/GetMyParking/app/src/main/res/layout/fragment_booking.xml" value="0.264" />

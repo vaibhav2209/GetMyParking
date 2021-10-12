@@ -1,12 +1,16 @@
 package com.example.getmyparking.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -20,10 +24,11 @@ import com.example.getmyparking.interfaces.ParkingImagesListener
 import timber.log.Timber
 
 class ParkingImageAdapter(
-    val urlList : ArrayList<String>,
+    val urlList : ArrayList<Drawable>,
     val listener:ParkingImagesListener
 ): RecyclerView.Adapter<ParkingImageAdapter.ViewHolder>() {
 
+    var isFirstImageFailed = false
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
@@ -34,42 +39,9 @@ class ParkingImageAdapter(
         }
 
         fun bind(){
-
-            val options = RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.loading_image_placeholer)
-                .error(R.drawable.fail_image_placeholder)
-                .fitCenter()
-
-            Glide.with(imgView)
-                .load(urlList[absoluteAdapterPosition])
-                .thumbnail(0.33f)
-                .apply(options)
-                .listener(
-                    object : RequestListener<Drawable?> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any,
-                            target: Target<Drawable?>,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            imgView.setImageResource(R.drawable.img_parking_place)
-                            return true
-                        }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            return false
-                        }
-                    }
-                )
-                .into(imgView)
+            imgView.setImageDrawable(urlList[absoluteAdapterPosition])
         }
+
         override fun onClick(v: View?) {
             if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
                 listener.onImageClick(absoluteAdapterPosition)
@@ -94,9 +66,18 @@ class ParkingImageAdapter(
         return urlList.size
     }
 
-    fun submitUrls(urls:List<String>){
-        urlList.addAll(urls)
-        notifyItemRangeInserted(0, urls.size)
+    fun submitUrls(url:Drawable){
+        urlList.add(url)
+        notifyItemInserted(urlList.size)
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun submitUrls(urlList: ArrayList<Drawable>){
+        urlList.clear()
+        urlList.addAll(urlList)
+        notifyDataSetChanged()
+    }
+
+
 
 }

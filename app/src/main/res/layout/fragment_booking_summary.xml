@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.BookingSummaryFragment">
+
+    <RelativeLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/toolbar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/page_margin"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_arrow_back_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/summary"
+            android:textAppearance="@style/text_header"
+            android:textColor="@color/primary_theme" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/primary_theme"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        android:padding="@dimen/page_margin">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_location"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_info"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:backgroundTint="@color/primary_theme"
+                    android:src="@drawable/ic_arrow_forward"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_parking_name"
+                    app:layout_constraintStart_toEndOf="@+id/txt_parking_name"
+                    app:layout_constraintTop_toTopOf="@+id/txt_parking_name" />
+
+                <TextView
+                    android:id="@+id/txt_parking_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parking Name"
+                    android:textAppearance="@style/text_header"
+                    android:textColor="@color/text_grey"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_parking_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="address"
+                    android:textAppearance="@style/text_regular"
+                    android:textColor="@color/text_grey"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/txt_parking_name"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_parking_name"
+                    tools:ignore="SmallSp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_below="@id/constraint_location"
+                android:layout_marginVertical="20dp"
+                android:background="@color/line_grey" />
+
+
+
+            <LinearLayout
+                android:id="@+id/linear_car_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/line1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_directions_car"
+                    app:tint="@color/text_grey" />
+
+                <TextView
+                    android:id="@+id/txt_car_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="car no."
+                    android:textAppearance="@style/text_regular"
+                    android:textColor="@color/primary_theme"
+                    android:textSize="14sp"
+                    android:textAllCaps="true"
+                    android:layout_marginStart="10dp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_below="@id/linear_car_detail"
+                android:layout_marginVertical="20dp"
+                android:background="@color/line_grey" />
+
+
+            <TextView
+                android:id="@+id/txt_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line2"
+                android:layout_marginTop="5dp"
+                android:text="#ID: 22754158"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/primary_theme"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txt_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_id"
+                android:layout_marginTop="10dp"
+                android:text="From:"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txt_startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/txt_from"
+                android:layout_alignBottom="@+id/txt_from"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/txt_from"
+                android:text="11th Feb 2021- 16:00 hrs"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txt_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_from"
+                android:layout_marginTop="5dp"
+                android:text="TO:"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txt_endTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/txt_to"
+                android:layout_alignBottom="@+id/txt_to"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/txt_from"
+                android:text="11th Feb 2021- 20:00 hrs"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <ImageView
+                android:id="@+id/img_time"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/txt_to"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_timer" />
+
+            <TextView
+                android:id="@+id/txt_totalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/img_time"
+                android:layout_alignBottom="@+id/img_time"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/txt_from"
+                android:text="2 hrs 40 mins"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp"
+                tools:ignore="SmallSp" />
+
+            <RelativeLayout
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_below="@id/txt_totalTime"
+                android:layout_marginVertical="20dp"
+                android:background="@color/line_grey" />
+
+            <ImageView
+                android:id="@+id/ic_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_car_service"
+                app:tint="@color/text_grey"
+                android:layout_below="@id/line3"/>
+
+            <TextView
+                android:id="@+id/txt_services_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line3"
+                android:layout_alignBottom="@+id/ic_services"
+                android:layout_marginBottom="5dp"
+                android:layout_toEndOf="@+id/ic_services"
+                android:text="@string/service_on_wheel"
+                android:layout_marginStart="5dp"
+                android:textAppearance="@style/text_header"
+                android:textColor="@color/text_grey"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txt_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_services_heading"
+                android:layout_marginTop="5dp"
+                android:text="@string/none"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/text_grey"
+                android:textSize="12sp"
+                tools:ignore="SmallSp" />
+
+            <RelativeLayout
+                android:id="@+id/line4"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_below="@id/txt_services"
+                android:layout_marginVertical="20dp"
+                android:background="@color/line_grey" />
+
+            <TextView
+                android:id="@+id/txt_total_price_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line4"
+                android:layout_marginTop="5dp"
+                android:text="Total:"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/primary_theme"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="SmallSp" />
+
+            <TextView
+                android:id="@+id/txt_total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line4"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/txt_total_price_header"
+                android:text="$20"
+                android:textAppearance="@style/text_regular"
+                android:textColor="@color/primary_theme"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="SmallSp" />
+
+            <RelativeLayout
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="1.2dp"
+                android:layout_below="@id/txt_total_price"
+                android:layout_marginVertical="20dp"
+                android:background="@color/line_grey" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_care"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/primary_theme"
+                android:text="@string/pay"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:id="@+id/txt_care"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line5"
+                android:gravity="center"
+                android:text="@string/problem_tag"
+                android:textAppearance="@style/text_light"
+                android:textColor="@color/text_grey"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                tools:ignore="SmallSp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

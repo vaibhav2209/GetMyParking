@@ -5,15 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.getmyparking.R
 import com.example.getmyparking.adapter.UserVehiclesAdapter
+import com.example.getmyparking.data.local.CarEntity
 import com.example.getmyparking.databinding.FragmentProfileBinding
 import com.example.getmyparking.interfaces.UserVehicleAdapterListener
-import com.example.getmyparking.models.Vehicle
 import com.example.getmyparking.viewModel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,10 +20,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), UserVehicleAdapt
 
     private lateinit var mAdapter:UserVehiclesAdapter
     private val profileViewModel:ProfileViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +43,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), UserVehicleAdapt
     }
 
     private fun setupObserver(){
-        profileViewModel.vehicleData.observe(viewLifecycleOwner, {
+        profileViewModel.vehicles.observe(viewLifecycleOwner, {
             it?.let {vehicleList->
-                mAdapter.submitList(vehicleList)
+                if (vehicleList.isEmpty()){
+                    binding.txtClickToAdd.visibility = View.VISIBLE
+                    binding.recyclerVehicals.visibility = View.GONE
+                }else{
+                    mAdapter.submitList(vehicleList)
+                    binding.txtClickToAdd.visibility = View.GONE
+                    binding.recyclerVehicals.visibility = View.VISIBLE
+                }
+
             }
         })
     }
@@ -64,7 +66,28 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), UserVehicleAdapt
 
     }
 
-    override fun onVehicleClick(vehicle: Vehicle) {
-
+    override fun onVehicleClick(carEntity: CarEntity) {
+        showAlertDialog(
+            title = carEntity.model,
+            message = carEntity.number,
+            positiveText = "Edit",
+            negativeBtnText = "Delete",
+            positiveBtnClick = {
+              editVehicle(carEntity)
+            },
+            negativeBtnClick = {
+                deleteVehicle(carEntity)
+            }
+        )
     }
+
+    private fun deleteVehicle(carEntity: CarEntity){
+        profileViewModel.deleteVehicle(carEntity)
+    }
+
+    private fun editVehicle(carEntity: CarEntity){
+        profileViewModel.setEditVehicle(isEdit = true, id = carEntity.id)
+        navigateToNextScreen(R.id.action_profileFragment_to_addVehicleFragment)
+    }
+
 }
